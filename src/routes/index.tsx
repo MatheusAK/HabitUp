@@ -38,6 +38,7 @@ function Index() {
   const [editing, setEditing] = useState<Habit | null>(null);
   const [weekday, setWeekday] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     applyActiveThemeOnce();
