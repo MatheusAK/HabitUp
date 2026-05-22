@@ -58,7 +58,8 @@ function Index() {
   const completedToday = habits.filter((h) => h.completions.includes(today)).length;
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-md bg-background pb-32">
+    <div className="relative mx-auto min-h-screen w-full max-w-md pb-32">
+      <div className="animated-bg" aria-hidden="true" />
       {/* Hero */}
       <header className="relative overflow-hidden rounded-b-[2rem] bg-gradient-hero px-5 pb-6 pt-10 text-primary-foreground shadow-glow">
         <div className="flex items-center justify-between">
