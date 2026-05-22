@@ -19,10 +19,13 @@ export function HabitCard({
   onEdit: () => void;
   onCompleted: (xp: number) => void;
 }) {
+  const customTags = useStore((s) => s.customTags);
   const today = todayISO();
   const done = habit.completions.includes(today);
   const streak = computeStreak(habit);
   const expired = habit.endDate && habit.endDate < today;
+
+  const allTagsMap = new Map([...TAGS.map((t) => [t.id, t] as const), ...customTags.map((t) => [t.id, t] as const)]);
 
   return (
     <div
