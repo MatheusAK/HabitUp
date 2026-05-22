@@ -6,6 +6,7 @@ import {
   TAGS,
   toggleComplete,
   todayISO,
+  useStore,
   type Habit,
 } from "@/lib/habits-store";
 
