@@ -31,6 +31,7 @@ export interface State {
   xp: number;
   ownedThemes: string[];
   ownedTags: string[];
+  customTags: Tag[];
   activeTheme: string;
 }
 
