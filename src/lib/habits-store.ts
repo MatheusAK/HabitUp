@@ -11,6 +11,7 @@ export interface Habit {
   createdAt: string;
   completions: string[]; // ISO dates completed
   tagIds: string[];
+  xpLog?: Record<string, number>; // xp awarded per completion date
 }
 
 export interface Tag {
