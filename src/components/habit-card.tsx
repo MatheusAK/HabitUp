@@ -6,6 +6,7 @@ import {
   TAGS,
   toggleComplete,
   todayISO,
+  useStore,
   type Habit,
 } from "@/lib/habits-store";
 
@@ -18,10 +19,13 @@ export function HabitCard({
   onEdit: () => void;
   onCompleted: (xp: number) => void;
 }) {
+  const customTags = useStore((s) => s.customTags);
   const today = todayISO();
   const done = habit.completions.includes(today);
   const streak = computeStreak(habit);
   const expired = habit.endDate && habit.endDate < today;
+
+  const allTagsMap = new Map([...TAGS.map((t) => [t.id, t] as const), ...customTags.map((t) => [t.id, t] as const)]);
 
   return (
     <div
@@ -66,7 +70,7 @@ export function HabitCard({
             </span>
           )}
           {habit.tagIds.map((tid) => {
-            const t = TAGS.find((x) => x.id === tid);
+            const t = allTagsMap.get(tid);
             if (!t) return null;
             return (
               <Badge

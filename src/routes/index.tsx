@@ -33,9 +33,13 @@ function Index() {
   const [tab, setTab] = useState<Tab>("today");
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Habit | null>(null);
+  const [weekday, setWeekday] = useState("");
 
   useEffect(() => {
     applyActiveThemeOnce();
+    setWeekday(
+      new Date().toLocaleDateString(undefined, { weekday: "long" }),
+    );
   }, []);
 
   const { level, progress, currentLevelXp, nextLevelXp } = levelFromXp(xp);
@@ -60,7 +64,7 @@ function Index() {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] opacity-80">
-              {new Date().toLocaleDateString(undefined, { weekday: "long" })}
+              {weekday}
             </p>
             <h1 className="mt-1 text-2xl font-bold">Hey there 👋</h1>
           </div>

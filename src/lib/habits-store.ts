@@ -31,6 +31,7 @@ export interface State {
   xp: number;
   ownedThemes: string[];
   ownedTags: string[];
+  customTags: Tag[];
   activeTheme: string;
 }
 
@@ -57,6 +58,7 @@ const DEFAULT_STATE: State = {
   xp: 0,
   ownedThemes: ["midnight"],
   ownedTags: ["health", "focus"],
+  customTags: [],
   activeTheme: "midnight",
 };
 
@@ -197,6 +199,25 @@ export function unlockTag(id: string) {
   setState((s) =>
     s.ownedTags.includes(id) ? s : { ...s, ownedTags: [...s.ownedTags, id] },
   );
+}
+
+export function addCustomTag(label: string, color: string) {
+  const id = "custom_" + crypto.randomUUID();
+  setState((s) => ({
+    ...s,
+    customTags: [...s.customTags, { id, label, color, unlockLevel: 1 }],
+  }));
+}
+
+export function deleteCustomTag(id: string) {
+  setState((s) => ({
+    ...s,
+    customTags: s.customTags.filter((t) => t.id !== id),
+    habits: s.habits.map((h) => ({
+      ...h,
+      tagIds: h.tagIds.filter((tid) => tid !== id),
+    })),
+  }));
 }
 
 export function applyActiveThemeOnce() {
