@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { Flame, Plus, Sparkles, Trophy } from "lucide-react";
+import { Flame, Plus, Settings as SettingsIcon, Sparkles, Trophy } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { HabitCard } from "@/components/habit-card";
 import { HabitForm } from "@/components/habit-form";
 import { RewardsShop } from "@/components/rewards-shop";
+import { SettingsDialog } from "@/components/settings-dialog";
+import { DayBar } from "@/components/day-bar";
 import {
   applyActiveThemeOnce,
   bestStreakOverall,
