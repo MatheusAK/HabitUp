@@ -18,11 +18,14 @@ export function HabitForm({
   editing?: Habit | null;
 }) {
   const ownedTags = useStore((s) => s.ownedTags);
+  const customTags = useStore((s) => s.customTags);
   const [title, setTitle] = useState("");
   const [emoji, setEmoji] = useState("✅");
   const [frequency, setFrequency] = useState<"daily" | "once">("daily");
   const [endDate, setEndDate] = useState("");
   const [tagIds, setTagIds] = useState<string[]>([]);
+
+  const allAvailableTags = [...TAGS.filter((t) => ownedTags.includes(t.id)), ...customTags];
 
   useEffect(() => {
     if (open) {
@@ -116,11 +119,11 @@ export function HabitForm({
               onChange={(e) => setEndDate(e.target.value)}
             />
           </div>
-          {ownedTags.length > 0 && (
+          {allAvailableTags.length > 0 && (
             <div className="space-y-2">
               <Label>Tags</Label>
               <div className="flex flex-wrap gap-2">
-                {TAGS.filter((t) => ownedTags.includes(t.id)).map((t) => {
+                {allAvailableTags.map((t) => {
                   const active = tagIds.includes(t.id);
                   return (
                     <Badge
