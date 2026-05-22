@@ -17,7 +17,6 @@ export function HabitForm({
   onOpenChange: (v: boolean) => void;
   editing?: Habit | null;
 }) {
-  const ownedTags = useStore((s) => s.ownedTags);
   const customTags = useStore((s) => s.customTags);
   const [title, setTitle] = useState("");
   const [emoji, setEmoji] = useState("✅");
@@ -25,7 +24,7 @@ export function HabitForm({
   const [endDate, setEndDate] = useState("");
   const [tagIds, setTagIds] = useState<string[]>([]);
 
-  const allAvailableTags = [...TAGS.filter((t) => ownedTags.includes(t.id)), ...customTags];
+  const allAvailableTags = [...TAGS, ...customTags];
 
   useEffect(() => {
     if (open) {
