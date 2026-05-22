@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { Flame, Plus, Sparkles, Trophy } from "lucide-react";
+import { Flame, Plus, Settings as SettingsIcon, Sparkles, Trophy } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { HabitCard } from "@/components/habit-card";
 import { HabitForm } from "@/components/habit-form";
 import { RewardsShop } from "@/components/rewards-shop";
+import { SettingsDialog } from "@/components/settings-dialog";
+import { DayBar } from "@/components/day-bar";
 import {
   applyActiveThemeOnce,
   bestStreakOverall,
@@ -36,6 +38,7 @@ function Index() {
   const [editing, setEditing] = useState<Habit | null>(null);
   const [weekday, setWeekday] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     applyActiveThemeOnce();
@@ -73,15 +76,25 @@ function Index() {
             </p>
             <h1 className="mt-1 text-2xl font-bold">Hey there 👋</h1>
           </div>
-          <div className="flex flex-col items-end">
-            <div className="inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
-              <Trophy className="h-3.5 w-3.5" /> Lvl {mounted ? level : "—"}
-            </div>
-            <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
-              <Flame className="h-3.5 w-3.5" /> {mounted ? `${overallStreak}d` : "—"}
+          <div className="flex items-start gap-2">
+            <button
+              onClick={() => setSettingsOpen(true)}
+              className="rounded-full bg-black/20 p-2 text-primary-foreground transition active:scale-95"
+              aria-label="Settings"
+            >
+              <SettingsIcon className="h-4 w-4" />
+            </button>
+            <div className="flex flex-col items-end">
+              <div className="inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
+                <Trophy className="h-3.5 w-3.5" /> Lvl {mounted ? level : "—"}
+              </div>
+              <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
+                <Flame className="h-3.5 w-3.5" /> {mounted ? `${overallStreak}d` : "—"}
+              </div>
             </div>
           </div>
         </div>
+        {mounted && <DayBar />}
 
         <div className="mt-5">
           <div className="flex items-end justify-between text-xs">
@@ -120,7 +133,9 @@ function Index() {
       </div>
 
       <main className="mt-6 px-5">
-        {tab === "today" ? (
+        {!mounted ? (
+          <div className="h-32 animate-pulse rounded-2xl bg-card/40" />
+        ) : tab === "today" ? (
           <div className="space-y-3">
             {visibleHabits.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-border bg-card/50 p-8 text-center">
@@ -168,6 +183,7 @@ function Index() {
       )}
 
       <HabitForm open={formOpen} onOpenChange={setFormOpen} editing={editing} />
+      <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
       <Toaster position="top-center" />
     </div>
   );
