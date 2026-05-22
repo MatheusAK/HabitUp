@@ -76,15 +76,25 @@ function Index() {
             </p>
             <h1 className="mt-1 text-2xl font-bold">Hey there 👋</h1>
           </div>
-          <div className="flex flex-col items-end">
-            <div className="inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
-              <Trophy className="h-3.5 w-3.5" /> Lvl {mounted ? level : "—"}
-            </div>
-            <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
-              <Flame className="h-3.5 w-3.5" /> {mounted ? `${overallStreak}d` : "—"}
+          <div className="flex items-start gap-2">
+            <button
+              onClick={() => setSettingsOpen(true)}
+              className="rounded-full bg-black/20 p-2 text-primary-foreground transition active:scale-95"
+              aria-label="Settings"
+            >
+              <SettingsIcon className="h-4 w-4" />
+            </button>
+            <div className="flex flex-col items-end">
+              <div className="inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
+                <Trophy className="h-3.5 w-3.5" /> Lvl {mounted ? level : "—"}
+              </div>
+              <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
+                <Flame className="h-3.5 w-3.5" /> {mounted ? `${overallStreak}d` : "—"}
+              </div>
             </div>
           </div>
         </div>
+        {mounted && <DayBar />}
 
         <div className="mt-5">
           <div className="flex items-end justify-between text-xs">
