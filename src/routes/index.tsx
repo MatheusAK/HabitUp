@@ -10,6 +10,7 @@ import {
   applyActiveThemeOnce,
   bestStreakOverall,
   levelFromXp,
+  resetXpIfStreakBroken,
   todayISO,
   useStore,
   type Habit,
@@ -34,12 +35,15 @@ function Index() {
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Habit | null>(null);
   const [weekday, setWeekday] = useState("");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     applyActiveThemeOnce();
+    resetXpIfStreakBroken();
     setWeekday(
       new Date().toLocaleDateString(undefined, { weekday: "long" }),
     );
+    setMounted(true);
   }, []);
 
   const { level, progress, currentLevelXp, nextLevelXp } = levelFromXp(xp);
@@ -71,27 +75,27 @@ function Index() {
           </div>
           <div className="flex flex-col items-end">
             <div className="inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
-              <Trophy className="h-3.5 w-3.5" /> Lvl {level}
+              <Trophy className="h-3.5 w-3.5" /> Lvl {mounted ? level : "—"}
             </div>
             <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
-              <Flame className="h-3.5 w-3.5" /> {overallStreak}d
+              <Flame className="h-3.5 w-3.5" /> {mounted ? `${overallStreak}d` : "—"}
             </div>
           </div>
         </div>
 
         <div className="mt-5">
           <div className="flex items-end justify-between text-xs">
-            <span className="opacity-80">{xp - currentLevelXp} XP</span>
-            <span className="opacity-80">{nextLevelXp - currentLevelXp} XP</span>
+            <span className="opacity-80">{mounted ? `${xp - currentLevelXp} XP` : "— XP"}</span>
+            <span className="opacity-80">{mounted ? `${nextLevelXp - currentLevelXp} XP` : "— XP"}</span>
           </div>
           <div className="mt-1 h-2.5 overflow-hidden rounded-full bg-black/25">
             <div
               className="h-full rounded-full bg-white/90 transition-all duration-500"
-              style={{ width: `${Math.max(4, progress * 100)}%` }}
+              style={{ width: `${mounted ? Math.max(4, progress * 100) : 4}%` }}
             />
           </div>
           <p className="mt-2 text-xs opacity-90">
-            {completedToday}/{habits.filter((h) => h.frequency === "daily").length || habits.length} done today
+            {mounted ? `${completedToday}/${habits.filter((h) => h.frequency === "daily").length || habits.length} done today` : "\u00a0"}
           </p>
         </div>
       </header>
