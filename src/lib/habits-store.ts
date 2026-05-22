@@ -170,15 +170,22 @@ export function toggleComplete(id: string): number {
       if (h.id !== id) return h;
       const done = h.completions.includes(today);
       if (done) {
-        xpDelta = 0;
-        return { ...h, completions: h.completions.filter((d) => d !== today) };
+        const awarded = h.xpLog?.[today] ?? 0;
+        xpDelta = -awarded;
+        const nextLog = { ...(h.xpLog ?? {}) };
+        delete nextLog[today];
+        return {
+          ...h,
+          completions: h.completions.filter((d) => d !== today),
+          xpLog: nextLog,
+        };
       }
       const updated = { ...h, completions: [...h.completions, today] };
       const streak = computeStreak(updated);
       xpDelta = 10 + (streak > 1 ? Math.min(streak * 2, 30) : 0);
-      return updated;
+      return { ...updated, xpLog: { ...(h.xpLog ?? {}), [today]: xpDelta } };
     });
-    return { ...s, habits, xp: s.xp + xpDelta };
+    return { ...s, habits, xp: Math.max(0, s.xp + xpDelta) };
   });
   return xpDelta;
 }
