@@ -70,7 +70,7 @@ export function HabitCard({
             </span>
           )}
           {habit.tagIds.map((tid) => {
-            const t = TAGS.find((x) => x.id === tid);
+            const t = allTagsMap.get(tid);
             if (!t) return null;
             return (
               <Badge
