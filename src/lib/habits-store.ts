@@ -260,3 +260,45 @@ export function resetXpIfStreakBroken() {
     }));
   }
 }
+
+export function setDevMode(on: boolean) {
+  setState((s) => ({ ...s, devMode: on }));
+}
+
+export function addXp(delta: number) {
+  setState((s) => ({ ...s, xp: Math.max(0, s.xp + delta) }));
+}
+
+export function resetAllData() {
+  setState(() => ({ ...DEFAULT_STATE }));
+  if (typeof document !== "undefined") {
+    document.documentElement.setAttribute("data-theme", "midnight");
+  }
+}
+
+/**
+ * Last `count` days (oldest -> newest) with completion status.
+ * `allDone` is true when at least one daily habit existed on that date
+ * and every such habit was completed.
+ */
+export function lastDaysStatus(
+  habits: Habit[],
+  count = 7,
+): { date: string; allDone: boolean; partial: boolean }[] {
+  const out: { date: string; allDone: boolean; partial: boolean }[] = [];
+  for (let i = count - 1; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const iso = d.toISOString().slice(0, 10);
+    const eligible = habits.filter(
+      (h) => h.frequency === "daily" && h.createdAt <= iso,
+    );
+    const done = eligible.filter((h) => h.completions.includes(iso)).length;
+    out.push({
+      date: iso,
+      allDone: eligible.length > 0 && done === eligible.length,
+      partial: done > 0 && done < eligible.length,
+    });
+  }
+  return out;
+}
