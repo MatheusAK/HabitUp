@@ -233,3 +233,28 @@ export function applyActiveThemeOnce() {
     document.documentElement.setAttribute("data-theme", state.activeTheme);
   }
 }
+
+/**
+ * If the user broke their streak (no completion today or yesterday across
+ * all habits), reset XP and per-habit xp logs to zero.
+ */
+export function resetXpIfStreakBroken() {
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+  const todayStr = today.toISOString().slice(0, 10);
+  const yStr = yesterday.toISOString().slice(0, 10);
+
+  const anyRecent = state.habits.some(
+    (h) => h.completions.includes(todayStr) || h.completions.includes(yStr),
+  );
+  const hasHistory = state.habits.some((h) => h.completions.length > 0);
+
+  if (hasHistory && !anyRecent && state.xp > 0) {
+    setState((s) => ({
+      ...s,
+      xp: 0,
+      habits: s.habits.map((h) => ({ ...h, xpLog: {} })),
+    }));
+  }
+}
