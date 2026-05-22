@@ -10,6 +10,7 @@ import {
   applyActiveThemeOnce,
   bestStreakOverall,
   levelFromXp,
+  resetXpIfStreakBroken,
   todayISO,
   useStore,
   type Habit,
@@ -34,12 +35,15 @@ function Index() {
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Habit | null>(null);
   const [weekday, setWeekday] = useState("");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     applyActiveThemeOnce();
+    resetXpIfStreakBroken();
     setWeekday(
       new Date().toLocaleDateString(undefined, { weekday: "long" }),
     );
+    setMounted(true);
   }, []);
 
   const { level, progress, currentLevelXp, nextLevelXp } = levelFromXp(xp);
