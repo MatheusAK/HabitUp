@@ -34,6 +34,7 @@ export interface State {
   ownedTags: string[];
   customTags: Tag[];
   activeTheme: string;
+  devMode: boolean;
 }
 
 export const THEMES: Theme[] = [
@@ -61,6 +62,7 @@ const DEFAULT_STATE: State = {
   ownedTags: ["health", "focus"],
   customTags: [],
   activeTheme: "midnight",
+  devMode: false,
 };
 
 let state: State = loadInitial();
