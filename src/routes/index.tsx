@@ -133,7 +133,9 @@ function Index() {
       </div>
 
       <main className="mt-6 px-5">
-        {tab === "today" ? (
+        {!mounted ? (
+          <div className="h-32 animate-pulse rounded-2xl bg-card/40" />
+        ) : tab === "today" ? (
           <div className="space-y-3">
             {visibleHabits.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-border bg-card/50 p-8 text-center">
