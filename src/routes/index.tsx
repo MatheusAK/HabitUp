@@ -183,6 +183,7 @@ function Index() {
       )}
 
       <HabitForm open={formOpen} onOpenChange={setFormOpen} editing={editing} />
+      <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
       <Toaster position="top-center" />
     </div>
   );
