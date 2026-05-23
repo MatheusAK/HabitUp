@@ -98,7 +98,20 @@ function loadInitial(): State {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return DEFAULT_STATE;
-    return { ...DEFAULT_STATE, ...JSON.parse(raw) };
+    const parsed = JSON.parse(raw);
+    // Merge with defaults so newly added top-level fields don't wipe history.
+    const merged: State = { ...DEFAULT_STATE, ...parsed };
+    // Defensive normalization: guarantee every habit has a deduped
+    // completions array. This protects against any older record that may
+    // have stored a different shape (e.g. boolean `completed`) and prevents
+    // accidental duplicates.
+    merged.habits = (merged.habits ?? []).map((h: Habit) => ({
+      ...h,
+      completions: Array.from(new Set(h.completions ?? [])).sort(),
+      xpLog: h.xpLog ?? {},
+      tagIds: h.tagIds ?? [],
+    }));
+    return merged;
   } catch {
     return DEFAULT_STATE;
   }
@@ -106,7 +119,14 @@ function loadInitial(): State {
 
 function persist() {
   if (typeof window === "undefined") return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (err) {
+    // Storage may be full or blocked (Safari private mode, etc).
+    // We log instead of throwing so a transient persist failure never
+    // corrupts in-memory state or interrupts the user's interaction.
+    console.warn("[habit-tracker] failed to persist state", err);
+  }
 }
 
 function notify() {
