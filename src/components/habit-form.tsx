@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { addHabit, updateHabit, TAGS, useStore, type Habit } from "@/lib/habits-store";
 
-const EMOJIS = ["✅", "💧", "🏃", "📚", "🧘", "🎯", "💪", "🌱", "✍️", "🎨", "💤", "🍎"];
+const EMOJIS = ["✓", "💧", "🏃", "📖", "📕", "🧘", "🎯", "💪", "🌱", "🖊️", "🎨", "💤", "🍎", "🐕", "🫂", "⚽"];
 
 export function HabitForm({
   open,
