@@ -1,7 +1,7 @@
 import { Flame } from "lucide-react";
 import { lastDaysStatus, useStore } from "@/lib/habits-store";
 
-const DAY_LABELS = ["D", "S", "T", "Q", "Q", "S", "S"];
+const DAY_LABELS = ["S", "M", "T", "W", "T", "F", "S"];
 
 export function DayBar() {
   const habits = useStore((s) => s.habits);
