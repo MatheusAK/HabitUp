@@ -366,7 +366,7 @@ export function lastDaysStatus(
   for (let i = count - 1; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    const iso = d.toISOString().slice(0, 10);
+    const iso = toLocalISO(d);
     const eligible = habits.filter(
       (h) => h.frequency === "daily" && h.createdAt <= iso,
     );
