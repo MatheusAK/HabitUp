@@ -310,13 +310,18 @@ export function applyActiveThemeOnce() {
 /**
  * If the user broke their streak (no completion today or yesterday across
  * all habits), reset XP and per-habit xp logs to zero.
+ *
+ * IMPORTANT: this ONLY clears `xp` and `xpLog`. It never touches the
+ * `completions` arrays — historical completion dates are sacred and must
+ * persist forever so the day-bar history and past streaks stay correct.
  */
 export function resetXpIfStreakBroken() {
   const today = new Date();
   const yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
-  const todayStr = today.toISOString().slice(0, 10);
-  const yStr = yesterday.toISOString().slice(0, 10);
+  // Use local-date strings so the boundary check matches stored completions.
+  const todayStr = toLocalISO(today);
+  const yStr = toLocalISO(yesterday);
 
   const anyRecent = state.habits.some(
     (h) => h.completions.includes(todayStr) || h.completions.includes(yStr),
@@ -328,6 +333,7 @@ export function resetXpIfStreakBroken() {
       ...s,
       xp: 0,
       habits: s.habits.map((h) => ({ ...h, xpLog: {} })),
+      // Note: h.completions is intentionally preserved.
     }));
   }
 }
