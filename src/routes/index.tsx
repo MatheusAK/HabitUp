@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { Flame, Plus, Settings as SettingsIcon, Sparkles, Trophy } from "lucide-react";
+import { BarChart3, Flame, Plus, Settings as SettingsIcon, Sparkles, Trophy } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { HabitCard } from "@/components/habit-card";
@@ -8,6 +8,7 @@ import { HabitForm } from "@/components/habit-form";
 import { RewardsShop } from "@/components/rewards-shop";
 import { SettingsDialog } from "@/components/settings-dialog";
 import { DayBar } from "@/components/day-bar";
+import { StatsView } from "@/components/stats-view";
 import {
   applyActiveThemeOnce,
   bestStreakOverall,
