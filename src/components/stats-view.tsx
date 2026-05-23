@@ -38,7 +38,7 @@ function StatTile({
     <div className="rounded-2xl bg-card p-3 shadow-card">
       <div
         className="inline-flex h-8 w-8 items-center justify-center rounded-xl"
-        style={{ background: accent ?? "hsl(var(--primary) / 0.18)" }}
+        style={{ background: accent ?? "color-mix(in oklab, var(--primary) calc(0.18 * 100%), transparent)" }}
       >
         {icon}
       </div>
@@ -152,38 +152,38 @@ export function StatsView() {
             <AreaChart data={dailyTotals} margin={{ top: 6, right: 6, left: -22, bottom: 0 }}>
               <defs>
                 <linearGradient id="fillCount" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.55} />
-                  <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0.04} />
+                  <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.55} />
+                  <stop offset="100%" stopColor="var(--primary)" stopOpacity={0.04} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.4} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.4} />
               <XAxis
                 dataKey="label"
-                tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+                tick={{ fontSize: 10, fill: "var(--muted-foreground)" }}
                 interval={4}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis
                 allowDecimals={false}
-                tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+                tick={{ fontSize: 10, fill: "var(--muted-foreground)" }}
                 tickLine={false}
                 axisLine={false}
                 width={28}
               />
               <Tooltip
                 contentStyle={{
-                  background: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
+                  background: "var(--card)",
+                  border: "1px solid var(--border)",
                   borderRadius: 12,
                   fontSize: 12,
                 }}
-                labelStyle={{ color: "hsl(var(--foreground))" }}
+                labelStyle={{ color: "var(--foreground)" }}
               />
               <Area
                 type="monotone"
                 dataKey="count"
-                stroke="hsl(var(--primary))"
+                stroke="var(--primary)"
                 strokeWidth={2}
                 fill="url(#fillCount)"
               />
@@ -203,30 +203,30 @@ export function StatsView() {
         <div className="h-40 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={weekTotals} margin={{ top: 6, right: 6, left: -22, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.4} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.4} />
               <XAxis
                 dataKey="label"
-                tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+                tick={{ fontSize: 10, fill: "var(--muted-foreground)" }}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis
                 allowDecimals={false}
-                tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+                tick={{ fontSize: 10, fill: "var(--muted-foreground)" }}
                 tickLine={false}
                 axisLine={false}
                 width={28}
               />
               <Tooltip
                 contentStyle={{
-                  background: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
+                  background: "var(--card)",
+                  border: "1px solid var(--border)",
                   borderRadius: 12,
                   fontSize: 12,
                 }}
               />
-              <Bar dataKey="total" fill="hsl(var(--muted))" radius={[6, 6, 0, 0]} />
-              <Bar dataKey="count" fill="hsl(var(--primary))" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="total" fill="var(--muted)" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="count" fill="var(--primary)" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -287,7 +287,7 @@ export function StatsView() {
                     innerRadius={32}
                     outerRadius={60}
                     paddingAngle={2}
-                    stroke="hsl(var(--card))"
+                    stroke="var(--card)"
                     strokeWidth={2}
                   >
                     {pieData.map((_, i) => (
@@ -296,8 +296,8 @@ export function StatsView() {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      background: "hsl(var(--card))",
-                      border: "1px solid hsl(var(--border))",
+                      background: "var(--card)",
+                      border: "1px solid var(--border)",
                       borderRadius: 12,
                       fontSize: 12,
                     }}
