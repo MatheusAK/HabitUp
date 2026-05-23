@@ -130,7 +130,24 @@ export function useStore<T>(selector: (s: State) => T): T {
   );
 }
 
-export const todayISO = () => new Date().toISOString().slice(0, 10);
+/**
+ * Returns today's date in the user's LOCAL timezone as YYYY-MM-DD.
+ *
+ * IMPORTANT: We deliberately avoid `Date#toISOString()` here because it
+ * formats in UTC. On mobile devices in non-UTC timezones, a completion made
+ * late at night local time would be stored under tomorrow's UTC date, which
+ * looks to the user like their history was lost or their streak reset when
+ * they reopen the app the next morning. Using local components keeps the
+ * "day" boundary aligned with the user's perception of a day.
+ */
+export const todayISO = () => toLocalISO(new Date());
+
+export function toLocalISO(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
 
 export function levelFromXp(xp: number) {
   // each level needs progressively more xp: total to reach level L = 50 * L * (L-1)
