@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({
   }),
 });
 
-type Tab = "today" | "rewards";
+type Tab = "today" | "stats" | "rewards";
 
 function Index() {
   const habits = useStore((s) => s.habits);
