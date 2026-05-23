@@ -117,7 +117,7 @@ function Index() {
       {/* Tabs */}
       <div className="sticky top-0 z-10 -mt-4 px-5">
         <div className="flex rounded-full bg-card p-1 shadow-card">
-          {(["today", "rewards"] as Tab[]).map((t) => (
+          {(["today", "stats", "rewards"] as Tab[]).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -127,7 +127,11 @@ function Index() {
                   : "text-muted-foreground"
               }`}
             >
-              {t === "today" ? "Habits" : "Rewards"}
+              {t === "today" ? "Habits" : t === "stats" ? (
+                <span className="inline-flex items-center justify-center gap-1">
+                  <BarChart3 className="h-3.5 w-3.5" /> Stats
+                </span>
+              ) : "Rewards"}
             </button>
           ))}
         </div>
@@ -164,6 +168,8 @@ function Index() {
               ))
             )}
           </div>
+        ) : tab === "stats" ? (
+          <StatsView />
         ) : (
           <RewardsShop />
         )}
