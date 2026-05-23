@@ -189,10 +189,11 @@ export function computeStreak(habit: Habit): number {
   let streak = 0;
   const d = new Date();
   // start from today; if not done today, start from yesterday so streak isn't broken at start of day
-  if (!set.has(d.toISOString().slice(0, 10))) {
+  // NOTE: use local date (toLocalISO) so day boundaries match the user's timezone.
+  if (!set.has(toLocalISO(d))) {
     d.setDate(d.getDate() - 1);
   }
-  while (set.has(d.toISOString().slice(0, 10))) {
+  while (set.has(toLocalISO(d))) {
     streak++;
     d.setDate(d.getDate() - 1);
   }
