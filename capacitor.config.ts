@@ -1,9 +1,9 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'habitup.app',
-  appName: 'HabitUp',
-  webDir: 'dist'
-};
+  appId: 'com.habitlevelling.app',
+  appName: 'HabitLevelling',
+  webDir: 'mobile/dist', // ← aponta para o build do mobile
+}
 
-export default config;
+export default config
