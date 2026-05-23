@@ -235,6 +235,8 @@ export function toggleComplete(id: string): number {
       if (h.id !== id) return h;
       const done = h.completions.includes(today);
       if (done) {
+        // Un-check: remove today's date and refund the XP that was awarded
+        // for it. Past completion dates are never touched.
         const awarded = h.xpLog?.[today] ?? 0;
         xpDelta = -awarded;
         const nextLog = { ...(h.xpLog ?? {}) };
@@ -245,7 +247,13 @@ export function toggleComplete(id: string): number {
           xpLog: nextLog,
         };
       }
-      const updated = { ...h, completions: [...h.completions, today] };
+      // Check: append today's date. Use a Set to guarantee no duplicates
+      // even if some stale state ever contained one. We do NOT mutate the
+      // existing array — we build a new one for proper React updates.
+      const nextCompletions = Array.from(
+        new Set([...h.completions, today]),
+      ).sort();
+      const updated: Habit = { ...h, completions: nextCompletions };
       const streak = computeStreak(updated);
       xpDelta = 10 + (streak > 1 ? Math.min(streak * 2, 30) : 0);
       return { ...updated, xpLog: { ...(h.xpLog ?? {}), [today]: xpDelta } };
