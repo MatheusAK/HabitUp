@@ -25,7 +25,10 @@ export function HabitCard({
   const streak = computeStreak(habit);
   const expired = habit.endDate && habit.endDate < today;
 
-  const allTagsMap = new Map([...TAGS.map((t) => [t.id, t] as const), ...customTags.map((t) => [t.id, t] as const)]);
+  const allTagsMap = new Map([
+    ...TAGS.map((t) => [t.id, t] as const),
+    ...customTags.map((t) => [t.id, t] as const),
+  ]);
 
   return (
     <div
@@ -65,7 +68,11 @@ export function HabitCard({
             {habit.frequency === "daily" ? "Daily" : "Once"}
           </span>
           {habit.endDate && (
-            <span className={`rounded-full px-1.5 py-0.5 ${expired ? "bg-destructive/20 text-destructive" : "bg-muted"}`}>
+            <span
+              className={`rounded-full px-1.5 py-0.5 ${
+                expired ? "bg-destructive/20 text-destructive" : "bg-muted"
+              }`}
+            >
               {expired ? "Ended" : `Until ${habit.endDate}`}
             </span>
           )}
@@ -75,7 +82,11 @@ export function HabitCard({
             return (
               <Badge
                 key={tid}
-                style={{ backgroundColor: t.color + "33", color: t.color, borderColor: "transparent" }}
+                style={{
+                  backgroundColor: t.color + "33",
+                  color: t.color,
+                  borderColor: "transparent",
+                }}
                 className="px-1.5 py-0 text-[10px] font-medium"
               >
                 {t.label}

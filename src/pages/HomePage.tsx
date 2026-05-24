@@ -1,0 +1,117 @@
+import { useEffect, useMemo, useState } from "react";
+import { Plus } from "lucide-react";
+import { Toaster } from "@/components/ui/sonner";
+import {
+  applyActiveThemeOnce,
+  bestStreakOverall,
+  levelFromXp,
+  resetXpIfStreakBroken,
+  todayISO,
+  useStore,
+  type Habit,
+} from "@/lib/habits-store";
+import { HeroHeader } from "@/features/habits/components/HeroHeader";
+import { TabBar, type Tab } from "@/features/habits/components/TabBar";
+import { HabitList } from "@/features/habits/components/HabitList";
+import { HabitForm } from "@/features/habits/components/HabitForm";
+import { StatsView } from "@/features/stats/components/StatsView";
+import { RewardsShop } from "@/features/rewards/components/RewardsShop";
+import { SettingsDialog } from "@/features/settings/components/SettingsDialog";
+
+export function HomePage() {
+  const habits = useStore((s) => s.habits);
+  const xp = useStore((s) => s.xp);
+  const [tab, setTab] = useState<Tab>("today");
+  const [formOpen, setFormOpen] = useState(false);
+  const [editing, setEditing] = useState<Habit | null>(null);
+  const [weekday, setWeekday] = useState("");
+  const [mounted, setMounted] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  useEffect(() => {
+    applyActiveThemeOnce();
+    resetXpIfStreakBroken();
+    setWeekday(
+      new Date().toLocaleDateString(undefined, { weekday: "long" }),
+    );
+    setMounted(true);
+  }, []);
+
+  const { level, progress, currentLevelXp, nextLevelXp } = levelFromXp(xp);
+  const overallStreak = bestStreakOverall(habits);
+  const today = todayISO();
+
+  const visibleHabits = useMemo(
+    () =>
+      habits.filter((h) => {
+        if (h.frequency === "once") {
+          return (
+            !h.completions.includes(today) ||
+            h.completions[h.completions.length - 1] === today
+          );
+        }
+        return true;
+      }),
+    [habits, today],
+  );
+
+  const completedToday = habits.filter((h) => h.completions.includes(today)).length;
+  const totalHabits =
+    habits.filter((h) => h.frequency === "daily").length || habits.length;
+
+  return (
+    <div className="relative mx-auto min-h-screen w-full max-w-md pb-32">
+      <div className="animated-bg" aria-hidden="true" />
+
+      <HeroHeader
+        weekday={weekday}
+        level={level}
+        mounted={mounted}
+        overallStreak={overallStreak}
+        xp={xp}
+        currentLevelXp={currentLevelXp}
+        nextLevelXp={nextLevelXp}
+        progress={progress}
+        completedToday={completedToday}
+        totalHabits={totalHabits}
+        onSettingsClick={() => setSettingsOpen(true)}
+      />
+
+      <TabBar tab={tab} onTabChange={setTab} />
+
+      <main className="mt-6 px-5">
+        {tab === "today" ? (
+          <HabitList
+            mounted={mounted}
+            visibleHabits={visibleHabits}
+            onEdit={(h) => {
+              setEditing(h);
+              setFormOpen(true);
+            }}
+          />
+        ) : tab === "stats" ? (
+          <StatsView />
+        ) : (
+          <RewardsShop />
+        )}
+      </main>
+
+      {tab === "today" && (
+        <button
+          onClick={() => {
+            setEditing(null);
+            setFormOpen(true);
+          }}
+          className="fixed bottom-6 left-1/2 z-20 inline-flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full bg-gradient-hero text-primary-foreground shadow-glow transition active:scale-95"
+          aria-label="New habit"
+        >
+          <Plus className="h-7 w-7" strokeWidth={2.5} />
+        </button>
+      )}
+
+      <HabitForm open={formOpen} onOpenChange={setFormOpen} editing={editing} />
+      <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
+      <Toaster position="top-center" />
+    </div>
+  );
+}
