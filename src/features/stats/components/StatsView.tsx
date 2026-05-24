@@ -53,12 +53,12 @@ export function StatsView() {
   const rate =
     last30Possible > 0 ? Math.round((last30 / last30Possible) * 100) : 0;
 
-  const perHabit = habits.map((h) => ({
-    name: h.title.length > 12 ? h.title.slice(0, 12) + "…" : h.title,
-    emoji: h.emoji,
-    completions: h.completions.length,
-    streak: computeStreak(h),
-  }));
+const perHabit = habits.map((h) => ({
+  name: h.title.length > 12 ? h.title.slice(0, 12) + "…" : h.title,
+  emoji: h.emoji,
+  completions: h.completions.length,
+  streak: computeStreak(h),
+}));
 
   const pieData = perHabit
     .filter((p) => p.completions > 0)
