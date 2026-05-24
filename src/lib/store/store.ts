@@ -25,6 +25,7 @@ function loadInitial(): State {
       tagIds: h.tagIds ?? [],
       scheduledDays: h.scheduledDays ?? [],
     }));
+    merged.locale = merged.locale ?? "en";
     return merged;
   } catch {
     return DEFAULT_STATE;
@@ -197,6 +198,10 @@ export function resetXpIfStreakBroken() {
 
 export function setDevMode(on: boolean) {
   setState((s) => ({ ...s, devMode: on }));
+}
+
+export function setLocale(locale: import("./types").Locale) {
+  setState((s) => ({ ...s, locale }));
 }
 
 export function addXp(delta: number) {

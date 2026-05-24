@@ -11,21 +11,14 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { addHabit, updateHabit, TAGS, useStore, type Habit } from "@/lib/habits-store";
+import { useLocale } from "@/lib/i18n";
 
 const EMOJIS = [
   "✓", "💧", "🏃", "📖", "📕", "🧘", "🎯", "💪",
   "🌱", "🖊️", "🎨", "💤", "🍎", "🐕", "🫂", "⚽",
 ];
 
-const WEEKDAYS = [
-  { label: "Sun", value: 0 },
-  { label: "Mon", value: 1 },
-  { label: "Tue", value: 2 },
-  { label: "Wed", value: 3 },
-  { label: "Thu", value: 4 },
-  { label: "Fri", value: 5 },
-  { label: "Sat", value: 6 },
-];
+const WEEKDAYS_EN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export function HabitForm({
   open,
@@ -36,6 +29,7 @@ export function HabitForm({
   onOpenChange: (v: boolean) => void;
   editing?: Habit | null;
 }) {
+  const t = useLocale();
   const customTags = useStore((s) => s.customTags);
   const [title, setTitle] = useState("");
   const [emoji, setEmoji] = useState("✅");
@@ -101,16 +95,16 @@ export function HabitForm({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-sm rounded-2xl">
         <DialogHeader>
-          <DialogTitle>{editing ? "Edit habit" : "New habit"}</DialogTitle>
+          <DialogTitle>{editing ? t.editHabit : t.newHabit}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           {/* Title */}
           <div className="space-y-2">
-            <Label>Title</Label>
+            <Label>{t.titleLabel}</Label>
             <Input
               autoFocus
-              placeholder="Drink water"
+              placeholder={t.titlePlaceholder}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -118,7 +112,7 @@ export function HabitForm({
 
           {/* Emoji picker */}
           <div className="space-y-2">
-            <Label>Icon</Label>
+            <Label>{t.iconLabel}</Label>
             <div className="flex flex-wrap gap-2">
               {EMOJIS.map((e) => (
                 <button
@@ -137,9 +131,9 @@ export function HabitForm({
             </div>
           </div>
 
-          {/* Main frequency: Regular / One-time */}
+          {/* Main frequency */}
           <div className="space-y-2">
-            <Label>Type</Label>
+            <Label>{t.typeLabel}</Label>
             <div className="grid grid-cols-2 gap-2">
               {(["regular", "once"] as const).map((opt) => (
                 <button
@@ -152,17 +146,17 @@ export function HabitForm({
                       : "bg-muted text-muted-foreground"
                   }`}
                 >
-                  {opt === "regular" ? "Regular" : "One-time"}
+                  {opt === "regular" ? t.regular : t.onetime}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Sub-options shown only when Regular is selected */}
+          {/* Sub-options for Regular */}
           {mainFreq === "regular" && (
             <div className="space-y-3 rounded-xl border border-border bg-card/60 p-3">
               <Label className="text-xs text-muted-foreground uppercase tracking-wider">
-                Schedule
+                {t.scheduleLabel}
               </Label>
               <div className="grid grid-cols-2 gap-2">
                 {(["daily", "specific"] as const).map((opt) => (
@@ -176,19 +170,16 @@ export function HabitForm({
                         : "bg-muted text-muted-foreground hover:bg-accent"
                     }`}
                   >
-                    {opt === "daily" ? "Every day" : "Specific days"}
+                    {opt === "daily" ? t.everyDay : t.specificDays}
                   </button>
                 ))}
               </div>
 
-              {/* Weekday picker */}
               {regularType === "specific" && (
                 <div className="space-y-2">
-                  <p className="text-xs text-muted-foreground">
-                    Pick the days this habit should appear:
-                  </p>
+                  <p className="text-xs text-muted-foreground">{t.pickDays}</p>
                   <div className="flex gap-1.5">
-                    {WEEKDAYS.map(({ label, value }) => (
+                    {WEEKDAYS_EN.map((label, value) => (
                       <button
                         key={value}
                         type="button"
@@ -204,9 +195,7 @@ export function HabitForm({
                     ))}
                   </div>
                   {scheduledDays.length === 0 && (
-                    <p className="text-[11px] text-destructive">
-                      Select at least one day.
-                    </p>
+                    <p className="text-[11px] text-destructive">{t.selectOneDay}</p>
                   )}
                 </div>
               )}
@@ -215,7 +204,7 @@ export function HabitForm({
 
           {/* End date */}
           <div className="space-y-2">
-            <Label>End date (optional)</Label>
+            <Label>{t.endDateLabel}</Label>
             <Input
               type="date"
               value={endDate}
@@ -226,28 +215,28 @@ export function HabitForm({
           {/* Tags */}
           {allAvailableTags.length > 0 && (
             <div className="space-y-2">
-              <Label>Tags</Label>
+              <Label>{t.tagsLabel}</Label>
               <div className="flex flex-wrap gap-2">
-                {allAvailableTags.map((t) => {
-                  const active = tagIds.includes(t.id);
+                {allAvailableTags.map((tag) => {
+                  const active = tagIds.includes(tag.id);
                   return (
                     <Badge
-                      key={t.id}
+                      key={tag.id}
                       onClick={() =>
                         setTagIds((cur) =>
-                          cur.includes(t.id)
-                            ? cur.filter((x) => x !== t.id)
-                            : [...cur, t.id],
+                          cur.includes(tag.id)
+                            ? cur.filter((x) => x !== tag.id)
+                            : [...cur, tag.id],
                         )
                       }
                       style={{
-                        backgroundColor: active ? t.color : "transparent",
-                        borderColor: t.color,
-                        color: active ? "#0a0a0a" : t.color,
+                        backgroundColor: active ? tag.color : "transparent",
+                        borderColor: tag.color,
+                        color: active ? "#0a0a0a" : tag.color,
                       }}
                       className="cursor-pointer border px-2.5 py-1"
                     >
-                      {t.label}
+                      {tag.label}
                     </Badge>
                   );
                 })}
@@ -258,7 +247,7 @@ export function HabitForm({
 
         <DialogFooter>
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancel
+            {t.cancelBtn}
           </Button>
           <Button
             onClick={save}
@@ -269,7 +258,7 @@ export function HabitForm({
               scheduledDays.length === 0
             }
           >
-            {editing ? "Save" : "Create"}
+            {editing ? t.saveBtn : t.createBtn}
           </Button>
         </DialogFooter>
       </DialogContent>

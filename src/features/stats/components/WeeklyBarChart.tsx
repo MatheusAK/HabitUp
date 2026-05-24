@@ -17,15 +17,17 @@ interface WeeklyTotal {
 
 interface WeeklyBarChartProps {
   data: WeeklyTotal[];
+  title: string;
+  subtitle: string;
 }
 
-export function WeeklyBarChart({ data }: WeeklyBarChartProps) {
+export function WeeklyBarChart({ data, title, subtitle }: WeeklyBarChartProps) {
   return (
     <div className="rounded-2xl bg-card p-3 shadow-card">
       <div className="mb-2 flex items-center justify-between px-1">
-        <h3 className="text-sm font-semibold">This week</h3>
+        <h3 className="text-sm font-semibold">{title}</h3>
         <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
-          Done vs. planned
+          {subtitle}
         </span>
       </div>
       <div className="h-40 w-full">

@@ -17,15 +17,17 @@ interface DailyTotal {
 
 interface DailyAreaChartProps {
   data: DailyTotal[];
+  title: string;
+  subtitle: string;
 }
 
-export function DailyAreaChart({ data }: DailyAreaChartProps) {
+export function DailyAreaChart({ data, title, subtitle }: DailyAreaChartProps) {
   return (
     <div className="rounded-2xl bg-card p-3 shadow-card">
       <div className="mb-2 flex items-center justify-between px-1">
-        <h3 className="text-sm font-semibold">Last 30 days</h3>
+        <h3 className="text-sm font-semibold">{title}</h3>
         <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
-          Completions / day
+          {subtitle}
         </span>
       </div>
       <div className="h-44 w-full">

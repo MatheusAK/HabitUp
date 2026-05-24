@@ -9,17 +9,18 @@ import {
   useStore,
   type Habit,
 } from "@/lib/habits-store";
+import { useLocale } from "@/lib/i18n";
 
 const DAY_ABBREVS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-function formatFrequency(habit: Habit): string {
-  if (habit.frequency === "once") return "Once";
+function formatFrequency(habit: Habit, daily: string, once: string, noDays: string): string {
+  if (habit.frequency === "once") return once;
   if (habit.frequency === "specific") {
     const days = (habit.scheduledDays ?? []).slice().sort((a, b) => a - b);
-    if (days.length === 0) return "No days";
+    if (days.length === 0) return noDays;
     return days.map((d) => DAY_ABBREVS[d]).join(" · ");
   }
-  return "Daily";
+  return daily;
 }
 
 export function HabitCard({
@@ -31,6 +32,7 @@ export function HabitCard({
   onEdit: () => void;
   onCompleted: (xp: number) => void;
 }) {
+  const t = useLocale();
   const customTags = useStore((s) => s.customTags);
   const today = todayISO();
   const done = habit.completions.includes(today);
@@ -77,7 +79,7 @@ export function HabitCard({
             </span>
           )}
           <span className="rounded-full bg-muted px-1.5 py-0.5">
-            {formatFrequency(habit)}
+            {formatFrequency(habit, t.daily, t.once, t.noDays)}
           </span>
           {habit.endDate && (
             <span
@@ -85,23 +87,23 @@ export function HabitCard({
                 expired ? "bg-destructive/20 text-destructive" : "bg-muted"
               }`}
             >
-              {expired ? "Ended" : `Until ${habit.endDate}`}
+              {expired ? t.ended : t.until(habit.endDate)}
             </span>
           )}
           {habit.tagIds.map((tid) => {
-            const t = allTagsMap.get(tid);
-            if (!t) return null;
+            const tag = allTagsMap.get(tid);
+            if (!tag) return null;
             return (
               <Badge
                 key={tid}
                 style={{
-                  backgroundColor: t.color + "33",
-                  color: t.color,
+                  backgroundColor: tag.color + "33",
+                  color: tag.color,
                   borderColor: "transparent",
                 }}
                 className="px-1.5 py-0 text-[10px] font-medium"
               >
-                {t.label}
+                {tag.label}
               </Badge>
             );
           })}
@@ -112,13 +114,13 @@ export function HabitCard({
         <button
           onClick={onEdit}
           className="rounded-lg p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground"
-          aria-label="Edit"
+          aria-label={t.saveBtn}
         >
           <Pencil className="h-4 w-4" />
         </button>
         <button
           onClick={() => {
-            if (confirm(`Delete "${habit.title}"?`)) deleteHabit(habit.id);
+            if (confirm(t.deleteConfirm(habit.title))) deleteHabit(habit.id);
           }}
           className="rounded-lg p-1.5 text-muted-foreground hover:bg-destructive/20 hover:text-destructive"
           aria-label="Delete"

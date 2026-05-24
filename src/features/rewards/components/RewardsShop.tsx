@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Palette, Sparkles, Store } from "lucide-react";
 import { levelFromXp, THEMES, useStore } from "@/lib/habits-store";
+import { useLocale } from "@/lib/i18n";
 import { ThemeGrid } from "./ThemeGrid";
 import { ThemeShopDialog } from "./ThemeShopDialog";
 import { TagColorsGrid } from "./TagColorsGrid";
 import { CustomTagsSection } from "./CustomTagsSection";
 
 export function RewardsShop() {
+  const t = useLocale();
   const xp = useStore((s) => s.xp);
   const ownedThemes = useStore((s) => s.ownedThemes);
   const customTags = useStore((s) => s.customTags);
@@ -16,7 +18,7 @@ export function RewardsShop() {
   const [shopOpen, setShopOpen] = useState(false);
 
   const visibleThemes = THEMES.filter(
-    (t) => ownedThemes.includes(t.id) || level >= t.unlockLevel,
+    (theme) => ownedThemes.includes(theme.id) || level >= theme.unlockLevel,
   );
 
   return (
@@ -26,14 +28,14 @@ export function RewardsShop() {
           <div className="flex items-center gap-2">
             <Palette className="h-4 w-4 text-primary" />
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              Themes
+              {t.themes}
             </h2>
           </div>
           <button
             onClick={() => setShopOpen(true)}
             className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition hover:bg-primary/20"
           >
-            <Store className="h-3 w-3" /> Theme Shop
+            <Store className="h-3 w-3" /> {t.themeShop}
           </button>
         </div>
         <ThemeGrid
@@ -47,7 +49,7 @@ export function RewardsShop() {
         <div className="mb-3 flex items-center gap-2">
           <Sparkles className="h-4 w-4 text-primary" />
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-            Tag Colors
+            {t.tagColors}
           </h2>
         </div>
         <TagColorsGrid level={level} />

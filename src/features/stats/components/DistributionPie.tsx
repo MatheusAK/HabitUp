@@ -13,17 +13,19 @@ interface PieEntry {
 
 interface DistributionPieProps {
   data: PieEntry[];
+  title: string;
+  subtitle: string;
 }
 
-export function DistributionPie({ data }: DistributionPieProps) {
+export function DistributionPie({ data, title, subtitle }: DistributionPieProps) {
   if (data.length === 0) return null;
 
   return (
     <div className="rounded-2xl bg-card p-3 shadow-card">
       <div className="mb-2 flex items-center justify-between px-1">
-        <h3 className="text-sm font-semibold">Where your effort goes</h3>
+        <h3 className="text-sm font-semibold">{title}</h3>
         <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
-          All time
+          {subtitle}
         </span>
       </div>
       <div className="flex items-center gap-3">

@@ -7,6 +7,7 @@ import {
   useStore,
   type Habit,
 } from "@/lib/habits-store";
+import { useLocale } from "@/lib/i18n";
 import { StatTile } from "./StatTile";
 import { DailyAreaChart } from "./DailyAreaChart";
 import { WeeklyBarChart } from "./WeeklyBarChart";
@@ -38,6 +39,7 @@ function buildDailyTotals(habits: Habit[], days: number) {
 }
 
 export function StatsView() {
+  const t = useLocale();
   const habits = useStore((s) => s.habits);
   const xp = useStore((s) => s.xp);
 
@@ -67,10 +69,8 @@ export function StatsView() {
     return (
       <div className="rounded-2xl border border-dashed border-border bg-card/50 p-8 text-center">
         <Activity className="mx-auto h-8 w-8 text-primary" />
-        <p className="mt-3 font-semibold">No stats yet</p>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Create habits and start completing them to unlock your charts.
-        </p>
+        <p className="mt-3 font-semibold">{t.noStatsTitle}</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t.noStatsBody}</p>
       </div>
     );
   }
@@ -80,32 +80,32 @@ export function StatsView() {
       <div className="grid grid-cols-2 gap-3">
         <StatTile
           icon={<Flame className="h-4 w-4 text-streak" />}
-          label="Best streak"
+          label={t.bestStreak}
           value={`${bestStreak}d`}
           accent="hsl(20 95% 60% / 0.18)"
         />
         <StatTile
           icon={<TrendingUp className="h-4 w-4 text-primary" />}
-          label="30-day rate"
+          label={t.rate30}
           value={`${rate}%`}
         />
         <StatTile
           icon={<Target className="h-4 w-4 text-success" />}
-          label="Total done"
+          label={t.totalDone}
           value={totalCompletions}
           accent="hsl(150 70% 50% / 0.18)"
         />
         <StatTile
           icon={<Activity className="h-4 w-4 text-primary" />}
-          label="Total XP"
+          label={t.totalXp}
           value={xp}
         />
       </div>
 
-      <DailyAreaChart data={dailyTotals} />
-      <WeeklyBarChart data={weekTotals} />
-      <StreakList entries={perHabit} />
-      <DistributionPie data={pieData} />
+      <DailyAreaChart data={dailyTotals} title={t.last30days} subtitle={t.completionsPerDay} />
+      <WeeklyBarChart data={weekTotals} title={t.thisWeek} subtitle={t.doneVsPlanned} />
+      <StreakList entries={perHabit} title={t.currentStreaks} subtitle={t.perHabit} />
+      <DistributionPie data={pieData} title={t.effortTitle} subtitle={t.allTime} />
     </div>
   );
 }

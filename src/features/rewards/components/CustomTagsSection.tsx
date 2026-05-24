@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { addCustomTag, deleteCustomTag, TAG_COLORS, type Tag } from "@/lib/habits-store";
+import { useLocale } from "@/lib/i18n";
 
 interface CustomTagsSectionProps {
   customTags: Tag[];
@@ -19,6 +20,7 @@ interface CustomTagsSectionProps {
 }
 
 export function CustomTagsSection({ customTags, level }: CustomTagsSectionProps) {
+  const t = useLocale();
   const [createOpen, setCreateOpen] = useState(false);
   const [newTagLabel, setNewTagLabel] = useState("");
   const unlockedColors = TAG_COLORS.filter((c) => level >= c.unlockLevel);
@@ -40,37 +42,37 @@ export function CustomTagsSection({ customTags, level }: CustomTagsSectionProps)
         <div className="flex items-center gap-2">
           <TagIcon className="h-4 w-4 text-primary" />
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-            Your Tags
+            {t.yourTags}
           </h2>
         </div>
         <button
           onClick={() => setCreateOpen(true)}
           className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition hover:bg-primary/20"
         >
-          <Plus className="h-3 w-3" /> New
+          <Plus className="h-3 w-3" /> {t.newTag}
         </button>
       </div>
 
       {customTags.length === 0 ? (
         <p className="rounded-2xl border border-dashed border-border bg-card/40 p-4 text-center text-xs text-muted-foreground">
-          No custom tags yet. Create one with an unlocked color.
+          {t.noCustomTags}
         </p>
       ) : (
         <div className="grid grid-cols-2 gap-3">
-          {customTags.map((t) => (
+          {customTags.map((tag) => (
             <div
-              key={t.id}
+              key={tag.id}
               className="flex items-center justify-between rounded-2xl bg-card p-3 shadow-card"
             >
               <div className="flex items-center gap-2">
-                <span className="h-8 w-8 rounded-lg" style={{ backgroundColor: t.color }} />
+                <span className="h-8 w-8 rounded-lg" style={{ backgroundColor: tag.color }} />
                 <div className="text-left">
-                  <div className="text-sm font-semibold">{t.label}</div>
-                  <div className="text-[10px] text-muted-foreground">Custom</div>
+                  <div className="text-sm font-semibold">{tag.label}</div>
+                  <div className="text-[10px] text-muted-foreground">{t.customLabel}</div>
                 </div>
               </div>
               <button
-                onClick={() => deleteCustomTag(t.id)}
+                onClick={() => deleteCustomTag(tag.id)}
                 className="rounded-full p-1.5 text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive"
                 aria-label="Delete tag"
               >
@@ -84,12 +86,12 @@ export function CustomTagsSection({ customTags, level }: CustomTagsSectionProps)
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent className="max-w-sm rounded-2xl">
           <DialogHeader>
-            <DialogTitle>Create tag</DialogTitle>
-            <DialogDescription>Pick from your unlocked colors.</DialogDescription>
+            <DialogTitle>{t.createTag}</DialogTitle>
+            <DialogDescription>{t.createTagDesc}</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label>Label</Label>
+              <Label>{t.labelField}</Label>
               <Input
                 autoFocus
                 placeholder="e.g. Work, Family"
@@ -98,7 +100,7 @@ export function CustomTagsSection({ customTags, level }: CustomTagsSectionProps)
               />
             </div>
             <div className="space-y-2">
-              <Label>Color</Label>
+              <Label>{t.colorField}</Label>
               <div className="flex flex-wrap gap-2">
                 {TAG_COLORS.map((c) => {
                   const unlocked = level >= c.unlockLevel;
@@ -125,14 +127,14 @@ export function CustomTagsSection({ customTags, level }: CustomTagsSectionProps)
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setCreateOpen(false)}>
-              Cancel
+              {t.cancelBtn}
             </Button>
             <Button
               onClick={saveTag}
               className="bg-gradient-hero text-primary-foreground shadow-glow"
               disabled={!newTagLabel.trim()}
             >
-              Create
+              {t.createBtn}
             </Button>
           </DialogFooter>
         </DialogContent>

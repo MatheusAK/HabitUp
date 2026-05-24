@@ -8,15 +8,17 @@ interface StreakEntry {
 
 interface StreakListProps {
   entries: StreakEntry[];
+  title: string;
+  subtitle: string;
 }
 
-export function StreakList({ entries }: StreakListProps) {
+export function StreakList({ entries, title, subtitle }: StreakListProps) {
   return (
     <div className="rounded-2xl bg-card p-3 shadow-card">
       <div className="mb-2 flex items-center justify-between px-1">
-        <h3 className="text-sm font-semibold">Current streaks</h3>
+        <h3 className="text-sm font-semibold">{title}</h3>
         <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
-          Per habit
+          {subtitle}
         </span>
       </div>
       <div className="space-y-2">

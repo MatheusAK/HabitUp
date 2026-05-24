@@ -33,6 +33,8 @@ export interface TagColor {
   unlockLevel: number;
 }
 
+export type Locale = "en" | "pt-BR";
+
 export interface State {
   habits: Habit[];
   xp: number;
@@ -41,4 +43,5 @@ export interface State {
   customTags: Tag[];
   activeTheme: string;
   devMode: boolean;
+  locale: Locale;
 }

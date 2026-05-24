@@ -7,6 +7,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { setActiveTheme, unlockTheme, THEMES, type Theme } from "@/lib/habits-store";
+import { useLocale } from "@/lib/i18n";
 
 interface ThemeShopDialogProps {
   open: boolean;
@@ -21,11 +22,17 @@ function ThemeShopCard({
   owned,
   canUnlock,
   active,
+  activeLabel,
+  tapToApply,
+  tapToUnlock,
 }: {
   theme: Theme;
   owned: boolean;
   canUnlock: boolean;
   active: boolean;
+  activeLabel: string;
+  tapToApply: string;
+  tapToUnlock: string;
 }) {
   return (
     <button
@@ -51,10 +58,10 @@ function ThemeShopCard({
         <div className="text-[11px] text-white/90">
           {owned
             ? active
-              ? "Active"
-              : "Tap to apply"
+              ? activeLabel
+              : tapToApply
             : canUnlock
-              ? "Tap to unlock"
+              ? tapToUnlock
               : `Lvl ${theme.unlockLevel}`}
         </div>
         {!owned && !canUnlock && (
@@ -72,25 +79,28 @@ export function ThemeShopDialog({
   activeTheme,
   level,
 }: ThemeShopDialogProps) {
+  const t = useLocale();
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-sm rounded-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Store className="h-4 w-4 text-primary" /> Theme Shop
+            <Store className="h-4 w-4 text-primary" /> {t.themeShop}
           </DialogTitle>
-          <DialogDescription>
-            New themes unlock every 3 levels after Candy. Reach Lvl 20 to collect them all.
-          </DialogDescription>
+          <DialogDescription>{t.themeShopDesc}</DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-3">
-          {THEMES.map((t) => (
+          {THEMES.map((theme) => (
             <ThemeShopCard
-              key={t.id}
-              theme={t}
-              owned={ownedThemes.includes(t.id)}
-              canUnlock={level >= t.unlockLevel}
-              active={activeTheme === t.id}
+              key={theme.id}
+              theme={theme}
+              owned={ownedThemes.includes(theme.id)}
+              canUnlock={level >= theme.unlockLevel}
+              active={activeTheme === theme.id}
+              activeLabel={t.active}
+              tapToApply={t.tapToApply}
+              tapToUnlock={t.tapToUnlock}
             />
           ))}
         </div>
