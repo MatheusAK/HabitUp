@@ -10,6 +10,18 @@ import {
   type Habit,
 } from "@/lib/habits-store";
 
+const DAY_ABBREVS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+function formatFrequency(habit: Habit): string {
+  if (habit.frequency === "once") return "Once";
+  if (habit.frequency === "specific") {
+    const days = (habit.scheduledDays ?? []).slice().sort((a, b) => a - b);
+    if (days.length === 0) return "No days";
+    return days.map((d) => DAY_ABBREVS[d]).join(" · ");
+  }
+  return "Daily";
+}
+
 export function HabitCard({
   habit,
   onEdit,
@@ -65,7 +77,7 @@ export function HabitCard({
             </span>
           )}
           <span className="rounded-full bg-muted px-1.5 py-0.5">
-            {habit.frequency === "daily" ? "Daily" : "Once"}
+            {formatFrequency(habit)}
           </span>
           {habit.endDate && (
             <span

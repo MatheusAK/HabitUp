@@ -41,6 +41,8 @@ export function HomePage() {
   const overallStreak = bestStreakOverall(habits);
   const today = todayISO();
 
+  const todayDow = new Date().getDay();
+
   const visibleHabits = useMemo(
     () =>
       habits.filter((h) => {
@@ -50,14 +52,22 @@ export function HomePage() {
             h.completions[h.completions.length - 1] === today
           );
         }
+        if (h.frequency === "specific") {
+          return (h.scheduledDays ?? []).includes(todayDow);
+        }
+        // "daily" — always show
         return true;
       }),
-    [habits, today],
+    [habits, today, todayDow],
   );
 
   const completedToday = habits.filter((h) => h.completions.includes(today)).length;
-  const totalHabits =
-    habits.filter((h) => h.frequency === "daily").length || habits.length;
+  const scheduledToday = habits.filter((h) => {
+    if (h.frequency === "daily") return true;
+    if (h.frequency === "specific") return (h.scheduledDays ?? []).includes(todayDow);
+    return false;
+  }).length;
+  const totalHabits = scheduledToday || habits.length;
 
   return (
     <div className="relative mx-auto min-h-screen w-full max-w-md pb-32">

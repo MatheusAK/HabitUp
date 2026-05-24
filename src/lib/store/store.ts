@@ -23,6 +23,7 @@ function loadInitial(): State {
       completions: Array.from(new Set(h.completions ?? [])).sort(),
       xpLog: h.xpLog ?? {},
       tagIds: h.tagIds ?? [],
+      scheduledDays: h.scheduledDays ?? [],
     }));
     return merged;
   } catch {

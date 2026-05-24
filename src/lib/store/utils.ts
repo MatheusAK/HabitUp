@@ -54,9 +54,26 @@ export function bestStreakOverall(habits: Habit[]): number {
 }
 
 /**
+ * Returns true when habit `h` is scheduled to appear on the calendar date
+ * represented by ISO string `iso`. "once" habits are never counted as
+ * eligible for a scheduled day.
+ */
+export function isHabitScheduledFor(h: Habit, iso: string): boolean {
+  if (h.frequency === "once") return false;
+  if (h.createdAt > iso) return false;
+  if (h.frequency === "specific") {
+    const dow = new Date(iso + "T00:00:00").getDay();
+    return (h.scheduledDays ?? []).includes(dow);
+  }
+  // "daily"
+  return true;
+}
+
+/**
  * Last `count` days (oldest -> newest) with completion status.
- * `allDone` is true when at least one daily habit existed on that date
- * and every such habit was completed.
+ * `allDone` is true when at least one scheduled habit existed on that date
+ * and every such habit was completed. "specific" habits only count on their
+ * scheduled weekdays.
  */
 export function lastDaysStatus(
   habits: Habit[],
@@ -67,9 +84,7 @@ export function lastDaysStatus(
     const d = new Date();
     d.setDate(d.getDate() - i);
     const iso = toLocalISO(d);
-    const eligible = habits.filter(
-      (h) => h.frequency === "daily" && h.createdAt <= iso,
-    );
+    const eligible = habits.filter((h) => isHabitScheduledFor(h, iso));
     const done = eligible.filter((h) => h.completions.includes(iso)).length;
     out.push({
       date: iso,

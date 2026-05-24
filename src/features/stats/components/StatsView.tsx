@@ -19,9 +19,13 @@ function buildDailyTotals(habits: Habit[], days: number) {
     const d = new Date();
     d.setDate(d.getDate() - i);
     const iso = toLocalISO(d);
-    const eligible = habits.filter(
-      (h) => h.frequency === "daily" && h.createdAt <= iso,
-    );
+    const dow = d.getDay();
+    const eligible = habits.filter((h) => {
+      if (h.createdAt > iso) return false;
+      if (h.frequency === "daily") return true;
+      if (h.frequency === "specific") return (h.scheduledDays ?? []).includes(dow);
+      return false;
+    });
     const count = habits.filter((h) => h.completions.includes(iso)).length;
     out.push({
       date: iso,
