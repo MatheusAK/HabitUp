@@ -1,5 +1,5 @@
 export type { HabitFrequency, Habit, Tag, Theme, TagColor, State, Locale } from "./types";
-export { THEMES, TAGS, TAG_COLORS, DEFAULT_STATE, STORAGE_KEY } from "./constants";
+export { THEMES, TAGS, TAG_COLORS, THEME_GRADIENTS, DEFAULT_STATE, STORAGE_KEY } from "./constants";
 export {
   todayISO,
   toLocalISO,

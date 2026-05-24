@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import { setActiveTheme, unlockTheme, type Theme } from "@/lib/habits-store";
+import { setActiveTheme, unlockTheme, THEME_GRADIENTS, type Theme } from "@/lib/habits-store";
 import { useLocale } from "@/lib/i18n";
 
 interface ThemeGridProps {
@@ -16,6 +16,7 @@ export function ThemeGrid({ themes, ownedThemes, activeTheme }: ThemeGridProps) 
       {themes.map((theme) => {
         const owned = ownedThemes.includes(theme.id);
         const active = activeTheme === theme.id;
+        const gradient = THEME_GRADIENTS[theme.id] ?? THEME_GRADIENTS.midnight;
         return (
           <button
             key={theme.id}
@@ -32,8 +33,7 @@ export function ThemeGrid({ themes, ownedThemes, activeTheme }: ThemeGridProps) 
           >
             <div
               className="absolute inset-0"
-              data-theme={theme.id}
-              style={{ background: "var(--gradient-hero)" }}
+              style={{ background: gradient }}
             />
             <div className="relative flex h-full flex-col justify-between p-3">
               <div className="text-base font-semibold text-white drop-shadow">{theme.name}</div>

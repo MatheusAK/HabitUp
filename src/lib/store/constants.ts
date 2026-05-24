@@ -37,6 +37,17 @@ export const TAG_COLORS: TagColor[] = [
   { value: "#22d3ee", name: "Cyan", unlockLevel: 15 },
 ];
 
+export const THEME_GRADIENTS: Record<string, string> = {
+  midnight: "linear-gradient(135deg, oklch(61.683% 0.21526 293.775), oklch(56.202% 0.17273 258.726))",
+  sunset:   "linear-gradient(135deg, #d38225, #e4361f)",
+  forest:   "linear-gradient(135deg, #19add6, #28c54c)",
+  candy:    "linear-gradient(135deg, oklch(0.76 0.2 340), oklch(82.634% 0.08712 258.738))",
+  aurora:   "linear-gradient(135deg, #3333ff, #6a6ac9)",
+  nebula:   "linear-gradient(135deg, oklch(56.749% 0.21741 301.065), oklch(45.389% 0.1098 277.908))",
+  solar:    "linear-gradient(135deg, oklch(71.091% 0.13739 77.268), oklch(66.709% 0.15205 60.282))",
+  prism:    "linear-gradient(135deg, oklch(0.78 0.18 320), oklch(0.75 0.18 180), oklch(0.78 0.18 60))",
+};
+
 export const DEFAULT_STATE: State = {
   habits: [],
   xp: 0,

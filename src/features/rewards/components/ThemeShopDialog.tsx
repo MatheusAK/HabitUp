@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { setActiveTheme, unlockTheme, THEMES, type Theme } from "@/lib/habits-store";
+import { setActiveTheme, unlockTheme, THEMES, THEME_GRADIENTS, type Theme } from "@/lib/habits-store";
 import { useLocale } from "@/lib/i18n";
 
 interface ThemeShopDialogProps {
@@ -34,6 +34,8 @@ function ThemeShopCard({
   tapToApply: string;
   tapToUnlock: string;
 }) {
+  const gradient = THEME_GRADIENTS[theme.id] ?? THEME_GRADIENTS.midnight;
+
   return (
     <button
       onClick={() => {
@@ -50,8 +52,7 @@ function ThemeShopCard({
     >
       <div
         className="absolute inset-0"
-        data-theme={theme.id}
-        style={{ background: "var(--gradient-hero)" }}
+        style={{ background: gradient }}
       />
       <div className="relative flex h-full flex-col justify-between p-3">
         <div className="text-sm font-semibold text-white drop-shadow">{theme.name}</div>
