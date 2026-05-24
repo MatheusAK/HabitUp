@@ -36,9 +36,45 @@ export function levelFromXp(xp: number) {
 export function computeStreak(habit: Habit): number {
   if (habit.completions.length === 0) return 0;
   const set = new Set(habit.completions);
+
+  if (habit.frequency === "specific") {
+    const scheduled = habit.scheduledDays ?? [];
+    if (scheduled.length === 0) return 0;
+
+    const d = new Date();
+
+    // Walk back to find the most recent scheduled day
+    let safety = 365;
+    while (!scheduled.includes(d.getDay()) && safety-- > 0) {
+      d.setDate(d.getDate() - 1);
+    }
+
+    // If that scheduled day isn't completed yet, step back to the previous
+    // scheduled day (benefit of the doubt — same as daily habits give for today)
+    if (!set.has(toLocalISO(d))) {
+      do {
+        d.setDate(d.getDate() - 1);
+      } while (!scheduled.includes(d.getDay()) && safety-- > 0);
+    }
+
+    // Walk backwards: skip non-scheduled days, stop on a missed scheduled day
+    let streak = 0;
+    safety = 730;
+    while (safety-- > 0) {
+      const iso = toLocalISO(d);
+      if (iso < habit.createdAt) break;
+      if (scheduled.includes(d.getDay())) {
+        if (!set.has(iso)) break; // missed a scheduled day — streak ends
+        streak++;
+      }
+      d.setDate(d.getDate() - 1);
+    }
+    return streak;
+  }
+
+  // "daily" habits — original day-by-day logic
   let streak = 0;
   const d = new Date();
-  // start from today; if not done today, start from yesterday so streak isn't broken at start of day
   if (!set.has(toLocalISO(d))) {
     d.setDate(d.getDate() - 1);
   }
