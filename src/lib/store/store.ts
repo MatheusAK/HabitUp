@@ -113,7 +113,7 @@ export function toggleComplete(id: string): number {
       ).sort();
       const updated: Habit = { ...h, completions: nextCompletions };
       const streak = computeStreak(updated);
-      xpDelta = 25 + (streak > 1 ? Math.min(streak * 2, 30) : 0);
+      xpDelta = 25 * (Math.floor(streak / 5) + 1);
       return { ...updated, xpLog: { ...(h.xpLog ?? {}), [today]: xpDelta } };
     });
     return { ...s, habits, xp: Math.max(0, s.xp + xpDelta) };
