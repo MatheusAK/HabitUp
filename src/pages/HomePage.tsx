@@ -21,21 +21,22 @@ import { SettingsDialog } from "@/features/settings/components/SettingsDialog";
 export function HomePage() {
   const habits = useStore((s) => s.habits);
   const xp = useStore((s) => s.xp);
+  const locale = useStore((s) => s.locale);
   const [tab, setTab] = useState<Tab>("today");
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Habit | null>(null);
-  const [weekday, setWeekday] = useState("");
   const [mounted, setMounted] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     applyActiveThemeOnce();
     resetXpIfStreakBroken();
-    setWeekday(
-      new Date().toLocaleDateString(undefined, { weekday: "long" }),
-    );
     setMounted(true);
   }, []);
+
+  const weekday = mounted
+    ? new Date().toLocaleDateString(locale, { weekday: "long" })
+    : "";
 
   const { level, progress, currentLevelXp, nextLevelXp } = levelFromXp(xp);
   const overallStreak = bestStreakOverall(habits);

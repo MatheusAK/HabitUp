@@ -1,10 +1,9 @@
 import { Flame } from "lucide-react";
 import { lastDaysStatus, useStore } from "@/lib/habits-store";
 
-const DAY_LABELS = ["S", "M", "T", "W", "T", "F", "S"];
-
 export function DayBar() {
   const habits = useStore((s) => s.habits);
+  const locale = useStore((s) => s.locale);
   const days = lastDaysStatus(habits, 7);
   const today = new Date().toISOString().slice(0, 10);
 
@@ -13,6 +12,9 @@ export function DayBar() {
       {days.map(({ date, allDone, partial }) => {
         const d = new Date(date + "T00:00:00");
         const isToday = date === today;
+        const dayLabel = d
+          .toLocaleDateString(locale, { weekday: "narrow" })
+          .toUpperCase();
         return (
           <div
             key={date}
@@ -21,7 +23,7 @@ export function DayBar() {
             }`}
           >
             <span className="text-[10px] font-semibold uppercase text-muted-foreground">
-              {DAY_LABELS[d.getDay()]}
+              {dayLabel}
             </span>
             <span className="text-xs font-bold text-foreground/80">{d.getDate()}</span>
             <div
