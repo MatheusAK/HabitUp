@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { addHabit, updateHabit, TAGS, useStore, type Habit } from "@/lib/habits-store";
 
-const EMOJIS = ["✓", "💧", "🏃", "📖", "📕", "🧘", "🎯", "💪", "🌱", "🖊️", "🎨", "💤", "🍎", "🐕", "🫂", "⚽"];
+const EMOJIS = [
+  "✓", "💧", "🏃", "📖", "📕", "🧘", "🎯", "💪",
+  "🌱", "🖊️", "🎨", "💤", "🍎", "🐕", "🫂", "⚽",
+];
 
 export function HabitForm({
   open,
@@ -75,7 +84,9 @@ export function HabitForm({
                   type="button"
                   onClick={() => setEmoji(e)}
                   className={`h-10 w-10 rounded-xl text-xl transition ${
-                    emoji === e ? "bg-primary/20 ring-2 ring-primary" : "bg-muted hover:bg-accent"
+                    emoji === e
+                      ? "bg-primary/20 ring-2 ring-primary"
+                      : "bg-muted hover:bg-accent"
                   }`}
                 >
                   {e}
@@ -129,7 +140,9 @@ export function HabitForm({
                       key={t.id}
                       onClick={() =>
                         setTagIds((cur) =>
-                          cur.includes(t.id) ? cur.filter((x) => x !== t.id) : [...cur, t.id],
+                          cur.includes(t.id)
+                            ? cur.filter((x) => x !== t.id)
+                            : [...cur, t.id],
                         )
                       }
                       style={{
@@ -151,7 +164,10 @@ export function HabitForm({
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={save} className="bg-gradient-hero text-primary-foreground shadow-glow">
+          <Button
+            onClick={save}
+            className="bg-gradient-hero text-primary-foreground shadow-glow"
+          >
             {editing ? "Save" : "Create"}
           </Button>
         </DialogFooter>

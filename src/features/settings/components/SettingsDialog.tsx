@@ -10,12 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import {
-  addXp,
-  resetAllData,
-  setDevMode,
-  useStore,
-} from "@/lib/habits-store";
+import { addXp, resetAllData, setDevMode, useStore } from "@/lib/habits-store";
 
 export function SettingsDialog({
   open,
