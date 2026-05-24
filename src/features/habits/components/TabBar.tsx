@@ -1,4 +1,4 @@
-import { BarChart3 } from "lucide-react";
+import { BarChart3, Gift, ListTodo } from "lucide-react";
 import { useLocale } from "@/lib/i18n";
 
 export type Tab = "today" | "stats" | "rewards";
@@ -12,13 +12,21 @@ export function TabBar({ tab, onTabChange }: TabBarProps) {
   const t = useLocale();
 
   const labels: Record<Tab, React.ReactNode> = {
-    today: t.tabHabits,
+    today: (
+      <span className="inline-flex items-center justify-center gap-1">
+        <ListTodo className="h-3.5 w-3.5" /> {t.tabHabits}
+      </span>
+    ),
     stats: (
       <span className="inline-flex items-center justify-center gap-1">
         <BarChart3 className="h-3.5 w-3.5" /> {t.tabStats}
       </span>
     ),
-    rewards: t.tabRewards,
+    rewards: (
+      <span className="inline-flex items-center justify-center gap-1">
+        <Gift className="h-3.5 w-3.5" /> {t.tabRewards}
+      </span>
+    ),
   };
 
   return (

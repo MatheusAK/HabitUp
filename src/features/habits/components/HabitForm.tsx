@@ -12,11 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { addHabit, updateHabit, TAGS, useStore, type Habit } from "@/lib/habits-store";
 import { useLocale } from "@/lib/i18n";
-
-const EMOJIS = [
-  "✓", "💧", "🏃", "📖", "📕", "🧘", "🎯", "💪",
-  "🌱", "🖊️", "🎨", "💤", "🍎", "🐕", "🫂", "⚽",
-];
+import { HABIT_ICONS, HabitIcon } from "../habitIcons";
 
 const WEEKDAYS_EN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -32,7 +28,7 @@ export function HabitForm({
   const t = useLocale();
   const customTags = useStore((s) => s.customTags);
   const [title, setTitle] = useState("");
-  const [emoji, setEmoji] = useState("✅");
+  const [iconId, setIconId] = useState("check");
   const [mainFreq, setMainFreq] = useState<"regular" | "once">("regular");
   const [regularType, setRegularType] = useState<"daily" | "specific">("daily");
   const [scheduledDays, setScheduledDays] = useState<number[]>([]);
@@ -44,7 +40,7 @@ export function HabitForm({
   useEffect(() => {
     if (!open) return;
     setTitle(editing?.title ?? "");
-    setEmoji(editing?.emoji ?? "✅");
+    setIconId(editing?.emoji ?? "check");
     setEndDate(editing?.endDate ?? "");
     setTagIds(editing?.tagIds ?? []);
 
@@ -79,7 +75,7 @@ export function HabitForm({
 
     const payload = {
       title: title.trim(),
-      emoji,
+      emoji: iconId,
       frequency: frequency as Habit["frequency"],
       scheduledDays: frequency === "specific" ? scheduledDays : undefined,
       endDate: endDate || undefined,
@@ -110,22 +106,23 @@ export function HabitForm({
             />
           </div>
 
-          {/* Emoji picker */}
+          {/* Icon picker */}
           <div className="space-y-2">
             <Label>{t.iconLabel}</Label>
-            <div className="flex flex-wrap gap-2">
-              {EMOJIS.map((e) => (
+            <div className="grid grid-cols-10 gap-1.5">
+              {HABIT_ICONS.map(({ id, Icon }) => (
                 <button
-                  key={e}
+                  key={id}
                   type="button"
-                  onClick={() => setEmoji(e)}
-                  className={`h-10 w-10 rounded-xl text-xl transition ${
-                    emoji === e
-                      ? "bg-primary/20 ring-2 ring-primary"
-                      : "bg-muted hover:bg-accent"
+                  onClick={() => setIconId(id)}
+                  className={`flex h-9 w-9 items-center justify-center rounded-xl transition ${
+                    iconId === id
+                      ? "bg-primary/20 text-primary ring-2 ring-primary"
+                      : "bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
                   }`}
+                  aria-label={id}
                 >
-                  {e}
+                  <Icon className="h-4 w-4" />
                 </button>
               ))}
             </div>

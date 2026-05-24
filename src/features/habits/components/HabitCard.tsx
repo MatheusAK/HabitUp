@@ -10,6 +10,7 @@ import {
   type Habit,
 } from "@/lib/habits-store";
 import { useLocale } from "@/lib/i18n";
+import { HabitIcon } from "../habitIcons";
 
 const DAY_ABBREVS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -40,8 +41,8 @@ export function HabitCard({
   const expired = habit.endDate && habit.endDate < today;
 
   const allTagsMap = new Map([
-    ...TAGS.map((t) => [t.id, t] as const),
-    ...customTags.map((t) => [t.id, t] as const),
+    ...TAGS.map((tag) => [tag.id, tag] as const),
+    ...customTags.map((tag) => [tag.id, tag] as const),
   ]);
 
   return (
@@ -56,14 +57,18 @@ export function HabitCard({
           if (delta > 0) onCompleted(delta);
         }}
         disabled={!!expired}
-        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-2xl transition active:scale-95 ${
+        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition active:scale-95 ${
           done
             ? "bg-gradient-success text-success-foreground animate-pop"
-            : "bg-muted hover:bg-accent"
+            : "bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
         } ${expired ? "cursor-not-allowed opacity-40" : ""}`}
         aria-label={done ? "Mark incomplete" : "Mark complete"}
       >
-        {done ? <Check className="h-6 w-6" strokeWidth={3} /> : habit.emoji}
+        {done ? (
+          <Check className="h-6 w-6" strokeWidth={3} />
+        ) : (
+          <HabitIcon id={habit.emoji} className="h-6 w-6" />
+        )}
       </button>
 
       <div className="min-w-0 flex-1">
@@ -114,7 +119,7 @@ export function HabitCard({
         <button
           onClick={onEdit}
           className="rounded-lg p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground"
-          aria-label={t.saveBtn}
+          aria-label="Edit"
         >
           <Pencil className="h-4 w-4" />
         </button>
