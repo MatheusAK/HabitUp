@@ -52,22 +52,32 @@ export function HeroHeader({
             {/* Prominent level badge */}
             <div className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 backdrop-blur-sm">
               <Trophy className="h-4 w-4 text-yellow-300" />
-              <span className="text-sm font-bold">{mounted ? level : 
+              <span className="text-sm font-bold">{mounted ? level : "—"}</span>
+            </div>
+            <div className="inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
+              <Flame className="h-3.5 w-3.5" /> {mounted ? `${overallStreak}d` : "—"}
+            </div>
+          </div>
+        </div>
+      </div>
 
       {mounted && <DayBar />}
 
       <div className="mt-5">
+        {/* XP bar labels: current / needed with clearer formatting */}
         <div className="flex items-end justify-between text-xs">
-          <span className="opacity-80">
-            {mounted ? `${xp - currentLevelXp} XP` : "— XP"}
+          <span className="flex items-center gap-1 opacity-90">
+            <Zap className="h-3 w-3" />
+            {mounted ? `${xpIntoLevel} / ${xpNeeded} XP` : "— XP"}
           </span>
           <span className="opacity-80">
-            {mounted ? `${nextLevelXp - currentLevelXp} XP` : "— XP"}
+            {mounted ? `Lvl ${level + 1}` : "—"}
           </span>
         </div>
-        <div className="mt-1 h-2.5 overflow-hidden rounded-full bg-black/25">
+        {/* Thicker, more visible XP bar */}
+        <div className="mt-2 h-3 overflow-hidden rounded-full bg-black/25">
           <div
-            className="h-full rounded-full bg-white/90 transition-all duration-500"
+            className="h-full rounded-full bg-gradient-to-r from-white/80 to-white transition-all duration-500"
             style={{ width: `${mounted ? Math.max(4, progress * 100) : 4}%` }}
           />
         </div>
