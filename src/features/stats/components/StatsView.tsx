@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Activity, Flame, Target, TrendingUp } from "lucide-react";
 import {
-  bestStreakOverall,
+  computeOverallStreak,
   computeStreak,
   toLocalISO,
   useStore,
@@ -47,7 +47,7 @@ export function StatsView() {
   const weekTotals = useMemo(() => buildDailyTotals(habits, 7), [habits]);
 
   const totalCompletions = habits.reduce((n, h) => n + h.completions.length, 0);
-  const bestStreak = bestStreakOverall(habits);
+  const bestStreak = computeOverallStreak(habits);
   const last30 = dailyTotals.reduce((n, d) => n + d.count, 0);
   const last30Possible = dailyTotals.reduce((n, d) => n + d.total, 0);
   const rate =

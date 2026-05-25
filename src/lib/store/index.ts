@@ -6,6 +6,7 @@ export {
   levelFromXp,
   computeStreak,
   bestStreakOverall,
+  computeOverallStreak,
   isHabitScheduledFor,
   lastDaysStatus,
 } from "./utils";

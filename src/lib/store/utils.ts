@@ -86,8 +86,61 @@ export function computeStreak(habit: Habit): number {
   return streak;
 }
 
+/** @deprecated use computeOverallStreak */
 export function bestStreakOverall(habits: Habit[]): number {
-  return habits.reduce((m, h) => Math.max(m, computeStreak(h)), 0);
+  return computeOverallStreak(habits);
+}
+
+/**
+ * Counts consecutive days (ending today or yesterday) where EVERY habit
+ * scheduled for that day was completed. Days with no scheduled habits are
+ * skipped transparently and do not break the streak.
+ */
+export function computeOverallStreak(habits: Habit[]): number {
+  if (habits.length === 0) return 0;
+
+  // Earliest possible date to walk back to (oldest habit creation date).
+  const oldestDate = habits.reduce(
+    (min, h) => (h.createdAt < min ? h.createdAt : min),
+    habits[0].createdAt,
+  );
+
+  const d = new Date();
+  const todayIso = toLocalISO(d);
+
+  // If today is not fully done yet, give benefit of the doubt and start
+  // counting from yesterday (same convention as computeStreak for daily habits).
+  const todayEligible = habits.filter((h) => isHabitScheduledFor(h, todayIso));
+  const todayAllDone =
+    todayEligible.length > 0 &&
+    todayEligible.every((h) => h.completions.includes(todayIso));
+
+  if (!todayAllDone) {
+    d.setDate(d.getDate() - 1);
+  }
+
+  let streak = 0;
+  let safety = 730;
+  while (safety-- > 0) {
+    const iso = toLocalISO(d);
+    if (iso < oldestDate) break;
+
+    const eligible = habits.filter((h) => isHabitScheduledFor(h, iso));
+
+    if (eligible.length === 0) {
+      // No habits existed or scheduled this day — skip without breaking.
+      d.setDate(d.getDate() - 1);
+      continue;
+    }
+
+    const allDone = eligible.every((h) => h.completions.includes(iso));
+    if (!allDone) break;
+
+    streak++;
+    d.setDate(d.getDate() - 1);
+  }
+
+  return streak;
 }
 
 /**

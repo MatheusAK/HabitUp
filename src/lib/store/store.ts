@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 import type { State, Habit } from "./types";
 import { DEFAULT_STATE, STORAGE_KEY } from "./constants";
-import { todayISO, computeStreak, toLocalISO } from "./utils";
+import { todayISO, computeStreak, toLocalISO, isHabitScheduledFor } from "./utils";
 
 let state: State = loadInitial();
 const listeners = new Set<() => void>();
@@ -181,9 +181,13 @@ export function resetXpIfStreakBroken() {
   const todayStr = toLocalISO(today);
   const yStr = toLocalISO(yesterday);
 
-  const anyRecent = state.habits.some(
-    (h) => h.completions.includes(todayStr) || h.completions.includes(yStr),
-  );
+  // A "day" is considered active only when ALL habits scheduled for that day
+  // were completed — matching the computeOverallStreak definition.
+  const wasFullyDone = (iso: string) => {
+    const eligible = state.habits.filter((h) => isHabitScheduledFor(h, iso));
+    return eligible.length > 0 && eligible.every((h) => h.completions.includes(iso));
+  };
+  const anyRecent = wasFullyDone(todayStr) || wasFullyDone(yStr);
   const hasHistory = state.habits.some((h) => h.completions.length > 0);
 
   if (hasHistory && !anyRecent && state.xp > 0) {

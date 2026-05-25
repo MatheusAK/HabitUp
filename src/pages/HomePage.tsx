@@ -3,7 +3,7 @@ import { Plus } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 import {
   applyActiveThemeOnce,
-  bestStreakOverall,
+  computeOverallStreak,
   levelFromXp,
   resetXpIfStreakBroken,
   todayISO,
@@ -39,7 +39,7 @@ export function HomePage() {
     : "";
 
   const { level, progress, currentLevelXp, nextLevelXp } = levelFromXp(xp);
-  const overallStreak = bestStreakOverall(habits);
+  const overallStreak = computeOverallStreak(habits);
   const today = todayISO();
 
   const todayDow = new Date().getDay();
