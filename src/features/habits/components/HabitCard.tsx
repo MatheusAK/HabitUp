@@ -1,8 +1,10 @@
 import { Check, Flame, Pencil, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import {
   computeStreak,
   deleteHabit,
+  levelFromXp,
   TAGS,
   toggleComplete,
   todayISO,
@@ -35,6 +37,7 @@ export function HabitCard({
 }) {
   const t = useLocale();
   const customTags = useStore((s) => s.customTags);
+  const currentXp = useStore((s) => s.xp);
   const today = todayISO();
   const done = habit.completions.includes(today);
   const streak = computeStreak(habit);
@@ -53,8 +56,18 @@ export function HabitCard({
     >
       <button
         onClick={() => {
+          const levelBefore = levelFromXp(currentXp).level;
           const delta = toggleComplete(habit.id);
-          if (delta > 0) onCompleted(delta);
+          if (delta > 0) {
+            onCompleted(delta);
+            const levelAfter = levelFromXp(currentXp + delta).level;
+            if (levelAfter > levelBefore) {
+              toast.success(`Level Up! 🎉`, {
+                description: `You reached level ${levelAfter}!`,
+                duration: 4000,
+              });
+            }
+          }
         }}
         disabled={!!expired}
         className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition active:scale-95 ${
