@@ -20,11 +20,12 @@ export function toLocalISO(d: Date): string {
 }
 
 export function levelFromXp(xp: number) {
-  // each level needs progressively more xp: total to reach level L = 50 * L * (L-1)
+  // each level needs progressively more xp: total to reach level L = 30 * L * (L-1)
+  // lowered from 50 to 30 so players level up faster and feel progress sooner
   let level = 1;
-  while (50 * level * (level + 1) <= xp) level++;
-  const currentLevelXp = 50 * (level - 1) * level;
-  const nextLevelXp = 50 * level * (level + 1);
+  while (30 * level * (level + 1) <= xp) level++;
+  const currentLevelXp = 30 * (level - 1) * level;
+  const nextLevelXp = 30 * level * (level + 1);
   return {
     level,
     currentLevelXp,

@@ -1,4 +1,4 @@
-import { Flame, Settings as SettingsIcon, Trophy } from "lucide-react";
+import { Flame, Settings as SettingsIcon, Trophy, Zap } from "lucide-react";
 import { DayBar } from "./DayBar";
 import { useLocale } from "@/lib/i18n";
 
@@ -30,10 +30,12 @@ export function HeroHeader({
   onSettingsClick,
 }: HeroHeaderProps) {
   const t = useLocale();
+  const xpIntoLevel = xp - currentLevelXp;
+  const xpNeeded = nextLevelXp - currentLevelXp;
 
   return (
     <header className="relative overflow-hidden rounded-b-[2rem] bg-gradient-hero px-5 pb-6 pt-10 text-primary-foreground shadow-glow">
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] opacity-80">{weekday}</p>
           <h1 className="mt-1 text-2xl font-bold">{t.greeting}</h1>
@@ -46,16 +48,11 @@ export function HeroHeader({
           >
             <SettingsIcon className="h-4 w-4" />
           </button>
-          <div className="flex flex-col items-end">
-            <div className="inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
-              <Trophy className="h-3.5 w-3.5" /> Lvl {mounted ? level : "—"}
-            </div>
-            <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
-              <Flame className="h-3.5 w-3.5" /> {mounted ? `${overallStreak}d` : "—"}
-            </div>
-          </div>
-        </div>
-      </div>
+          <div className="flex flex-col items-end gap-1.5">
+            {/* Prominent level badge */}
+            <div className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 backdrop-blur-sm">
+              <Trophy className="h-4 w-4 text-yellow-300" />
+              <span className="text-sm font-bold">{mounted ? level : 
 
       {mounted && <DayBar />}
 
