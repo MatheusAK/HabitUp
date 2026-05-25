@@ -17,3 +17,8 @@ export default defineConfig({
     outDir: 'dist',
   },
 })
+
+export default defineConfig({
+  base: '/HabitUp/', // ← nome do repositório
+  // resto da config...
+})
