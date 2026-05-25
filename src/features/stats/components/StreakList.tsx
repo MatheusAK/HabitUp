@@ -28,7 +28,7 @@ export function StreakList({ entries, title, subtitle }: StreakListProps) {
           const pct = (p.streak / max) * 100;
           return (
             <div key={i} className="flex items-center gap-2">
-              <span className="w-6 shrink-0 flex items-center justify-center text-primary"><HabitIcon name={p.emoji} /></span>
+              <span className="w-6 shrink-0 flex items-center justify-center text-primary"><HabitIcon id={p.emoji} className="h-5 w-5" /></span>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between text-xs">
                   <span className="truncate font-medium">{p.name}</span>
