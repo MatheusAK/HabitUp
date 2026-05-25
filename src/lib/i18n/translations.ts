@@ -76,7 +76,7 @@ export interface T {
 }
 
 const en: T = {
-  greeting: "Hey there 👋",
+  greeting: "Hey there",
   doneToday: (n, total) => `${n}/${total} done today`,
   tabHabits: "Habits",
   tabStats: "Stats",
@@ -151,7 +151,7 @@ const en: T = {
 };
 
 const ptBR: T = {
-  greeting: "Olá 👋",
+  greeting: "Seja Bem Vindo",
   doneToday: (n, total) => `${n}/${total} feitos hoje`,
   tabHabits: "Hábitos",
   tabStats: "Estatísticas",
