@@ -1,12 +1,5 @@
-import { Flame, Activity } from "lucide-react";
-import * as Icons from "lucide-react";
-
-function HabitIcon({ name }: { name: string }) {
-  const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
-  const IconComponent = (Icons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[capitalized];
-  if (IconComponent) return <IconComponent className="h-5 w-5" />;
-  return <span className="text-lg">{name}</span>;
-}
+import { Flame } from "lucide-react";
+import { HabitIcon } from "@/features/habits/habitIcons";
 
 interface StreakEntry {
   name: string;
