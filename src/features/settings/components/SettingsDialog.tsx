@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Globe, Minus, Plus, RotateCcw, Wrench } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -18,6 +18,8 @@ const LANGUAGES: { value: Locale; label: string; flag: string }[] = [
   { value: "pt-BR", label: "Português (BR)", flag: "🇧🇷" },
 ];
 
+const HOLD_MS = 5000;
+
 export function SettingsDialog({
   open,
   onOpenChange,
@@ -30,10 +32,40 @@ export function SettingsDialog({
   const locale = useStore((s) => s.locale);
   const xp = useStore((s) => s.xp);
   const [confirming, setConfirming] = useState(false);
+  const [devVisible, setDevVisible] = useState(false);
+
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function startHold() {
+    if (devVisible) return;
+    timerRef.current = setTimeout(() => {
+      setDevVisible(true);
+      toast.info("🔧 Dev Mode unlocked");
+    }, HOLD_MS);
+  }
+
+  function cancelHold() {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-sm">
+    <Dialog
+      open={open}
+      onOpenChange={(v) => {
+        cancelHold();
+        onOpenChange(v);
+      }}
+    >
+      <DialogContent
+        className="max-w-sm"
+        onPointerDown={startHold}
+        onPointerUp={cancelHold}
+        onPointerLeave={cancelHold}
+        onPointerCancel={cancelHold}
+      >
         <DialogHeader>
           <DialogTitle>{t.settingsTitle}</DialogTitle>
           <DialogDescription>{t.settingsDesc}</DialogDescription>
@@ -64,19 +96,21 @@ export function SettingsDialog({
             </div>
           </div>
 
-          {/* Dev mode */}
-          <div className="flex items-center justify-between rounded-xl border border-border bg-card/60 p-3">
-            <div className="flex items-center gap-2">
-              <Wrench className="h-4 w-4 text-primary" />
-              <div>
-                <p className="text-sm font-semibold">{t.devMode}</p>
-                <p className="text-xs text-muted-foreground">{t.devModeDesc}</p>
+          {/* Dev mode — hidden until 5-second hold */}
+          {devVisible && (
+            <div className="flex items-center justify-between rounded-xl border border-border bg-card/60 p-3">
+              <div className="flex items-center gap-2">
+                <Wrench className="h-4 w-4 text-primary" />
+                <div>
+                  <p className="text-sm font-semibold">{t.devMode}</p>
+                  <p className="text-xs text-muted-foreground">{t.devModeDesc}</p>
+                </div>
               </div>
+              <Switch checked={devMode} onCheckedChange={setDevMode} />
             </div>
-            <Switch checked={devMode} onCheckedChange={setDevMode} />
-          </div>
+          )}
 
-          {devMode && (
+          {devMode && devVisible && (
             <div className="rounded-xl border border-dashed border-primary/40 bg-primary/5 p-3">
               <p className="text-xs font-semibold uppercase tracking-wider text-primary">
                 {t.xpDebug(xp)}
