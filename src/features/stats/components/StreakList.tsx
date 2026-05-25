@@ -1,12 +1,5 @@
-import { Flame, Activity } from "lucide-react";
-import * as Icons from "lucide-react";
-
-function HabitIcon({ name }: { name: string }) {
-  const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
-  const IconComponent = (Icons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[capitalized];
-  if (IconComponent) return <IconComponent className="h-5 w-5" />;
-  return <span className="text-lg">{name}</span>;
-}
+import { Flame } from "lucide-react";
+import { HabitIcon } from "@/features/habits/habitIcons";
 
 interface StreakEntry {
   name: string;
@@ -35,7 +28,7 @@ export function StreakList({ entries, title, subtitle }: StreakListProps) {
           const pct = (p.streak / max) * 100;
           return (
             <div key={i} className="flex items-center gap-2">
-              <span className="w-6 shrink-0 flex items-center justify-center text-primary"><HabitIcon name={p.emoji} /></span>
+              <span className="w-6 shrink-0 flex items-center justify-center text-primary"><HabitIcon id={p.emoji} className="h-5 w-5" /></span>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between text-xs">
                   <span className="truncate font-medium">{p.name}</span>
