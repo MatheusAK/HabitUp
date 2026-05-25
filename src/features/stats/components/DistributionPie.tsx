@@ -65,8 +65,9 @@ export function DistributionPie({ data, title, subtitle }: DistributionPieProps)
                 className="h-2.5 w-2.5 shrink-0 rounded-full"
                 style={{ background: PIE_COLORS[i % PIE_COLORS.length] }}
               />
-              <span className="truncate">
-                {p.emoji} {p.name}
+              <span className="inline-flex items-center gap-1.5 truncate">
+                <HabitIcon id={p.emoji} className="h-3.5 w-3.5" />
+                <span className="truncate">{p.name}</span>
               </span>
               <span className="ml-auto text-muted-foreground">{p.completions}</span>
             </li>
