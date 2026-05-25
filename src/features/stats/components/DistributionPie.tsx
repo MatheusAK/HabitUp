@@ -1,4 +1,5 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import { HabitIcon } from "@/features/habits/habitIcons";
 
 const PIE_COLORS = [
   "#a78bfa", "#34d399", "#fbbf24", "#fb7185",
