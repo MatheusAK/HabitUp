@@ -110,15 +110,20 @@ export function CustomTagsSection({ customTags, level }: CustomTagsSectionProps)
                       type="button"
                       disabled={!unlocked}
                       onClick={() => unlocked && setNewTagColor(c.value)}
-                      className={`relative flex h-8 w-8 items-center justify-center rounded-full transition ${
+                      title={unlocked ? c.name : `${c.name} — Lvl ${c.unlockLevel}`}
+                      className={`relative flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-full transition ${
                         newTagColor === c.value && unlocked
                           ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
                           : ""
-                      } ${unlocked ? "" : "cursor-not-allowed opacity-40 grayscale"}`}
+                      } ${unlocked ? "" : "cursor-not-allowed opacity-50 grayscale"}`}
                       style={{ backgroundColor: c.value }}
                       aria-label={`${c.name}${unlocked ? "" : ` locked at level ${c.unlockLevel}`}`}
                     >
-                      {!unlocked && <Lock className="h-3 w-3 text-white" />}
+                      {unlocked ? null : (
+                        <span className="text-[9px] font-bold leading-none text-white drop-shadow">
+                          L{c.unlockLevel}
+                        </span>
+                      )}
                     </button>
                   );
                 })}
