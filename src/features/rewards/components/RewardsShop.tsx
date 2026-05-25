@@ -5,6 +5,7 @@ import { useLocale } from "@/lib/i18n";
 import { ThemeGrid } from "./ThemeGrid";
 import { ThemeShopDialog } from "./ThemeShopDialog";
 import { CustomTagsSection } from "./CustomTagsSection";
+import { AchievementsSection } from "./AchievementsSection";
 
 export function RewardsShop() {
   const t = useLocale();
@@ -45,6 +46,8 @@ export function RewardsShop() {
       </section>
 
       <CustomTagsSection customTags={customTags} level={level} />
+
+      <AchievementsSection />
 
       <ThemeShopDialog
         open={shopOpen}

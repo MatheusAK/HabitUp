@@ -44,4 +44,5 @@ export interface State {
   activeTheme: string;
   devMode: boolean;
   locale: Locale;
+  claimedAchievements: string[];
 }

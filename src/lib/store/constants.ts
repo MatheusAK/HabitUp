@@ -57,4 +57,5 @@ export const DEFAULT_STATE: State = {
   activeTheme: "midnight",
   devMode: false,
   locale: "en",
+  claimedAchievements: [],
 };

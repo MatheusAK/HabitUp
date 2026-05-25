@@ -27,4 +27,5 @@ export {
   setLocale,
   addXp,
   resetAllData,
+  claimAchievement,
 } from "./store";

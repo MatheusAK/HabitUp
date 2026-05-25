@@ -73,6 +73,13 @@ export interface T {
   resetEverything: string;
   allDataReset: string;
   languageLabel: string;
+  achievementsTitle: string;
+  easyLabel: string;
+  mediumLabel: string;
+  hardLabel: string;
+  claimBtn: string;
+  claimed: string;
+  xpReward: (xp: number) => string;
 }
 
 const en: T = {
@@ -148,6 +155,13 @@ const en: T = {
   resetEverything: "Reset everything",
   allDataReset: "All data reset",
   languageLabel: "Language",
+  achievementsTitle: "Achievements",
+  easyLabel: "Easy",
+  mediumLabel: "Medium",
+  hardLabel: "Hard",
+  claimBtn: "Claim",
+  claimed: "Claimed",
+  xpReward: (xp) => `+${xp} XP`,
 };
 
 const ptBR: T = {
@@ -223,6 +237,13 @@ const ptBR: T = {
   resetEverything: "Resetar tudo",
   allDataReset: "Todos os dados resetados",
   languageLabel: "Idioma",
+  achievementsTitle: "Conquistas",
+  easyLabel: "Fácil",
+  mediumLabel: "Médio",
+  hardLabel: "Difícil",
+  claimBtn: "Resgatar",
+  claimed: "Resgatado",
+  xpReward: (xp) => `+${xp} XP`,
 };
 
 export const translations: Record<Locale, T> = { en, "pt-BR": ptBR };

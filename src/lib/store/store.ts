@@ -26,6 +26,7 @@ function loadInitial(): State {
       scheduledDays: h.scheduledDays ?? [],
     }));
     merged.locale = merged.locale ?? "en";
+    merged.claimedAchievements = merged.claimedAchievements ?? [];
     return merged;
   } catch {
     return DEFAULT_STATE;
@@ -206,6 +207,17 @@ export function setDevMode(on: boolean) {
 
 export function setLocale(locale: import("./types").Locale) {
   setState((s) => ({ ...s, locale }));
+}
+
+export function claimAchievement(id: string, xp: number) {
+  setState((s) => {
+    if (s.claimedAchievements.includes(id)) return s;
+    return {
+      ...s,
+      xp: s.xp + xp,
+      claimedAchievements: [...s.claimedAchievements, id],
+    };
+  });
 }
 
 export function addXp(delta: number) {
