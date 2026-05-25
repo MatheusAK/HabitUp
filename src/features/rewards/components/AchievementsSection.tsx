@@ -28,7 +28,13 @@ export function AchievementsSection() {
 
   const grouped = DIFFICULTY_ORDER.map((diff) => ({
     diff,
-    items: ACHIEVEMENTS.filter((a) => a.difficulty === diff),
+    items: ACHIEVEMENTS
+      .filter((a) => a.difficulty === diff)
+      .sort((a, b) => {
+        const aClaimed = claimedAchievements.includes(a.id) ? 1 : 0;
+        const bClaimed = claimedAchievements.includes(b.id) ? 1 : 0;
+        return aClaimed - bClaimed;
+      }),
   }));
 
   const totalClaimed = claimedAchievements.length;
