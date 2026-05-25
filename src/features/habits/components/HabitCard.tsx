@@ -37,6 +37,7 @@ export function HabitCard({
 }) {
   const t = useLocale();
   const customTags = useStore((s) => s.customTags);
+  const currentXp = useStore((s) => s.xp);
   const today = todayISO();
   const done = habit.completions.includes(today);
   const streak = computeStreak(habit);
@@ -55,13 +56,11 @@ export function HabitCard({
     >
       <button
         onClick={() => {
-          const xpBefore = useStore.getState?. ? useStore.getState() : { xp: 0 };
-          const levelBefore = levelFromXp((xpBefore as any).xp).level;
+          const levelBefore = levelFromXp(currentXp).level;
           const delta = toggleComplete(habit.id);
           if (delta > 0) {
             onCompleted(delta);
-            const xpAfter = (xpBefore as any).xp + delta;
-            const levelAfter = levelFromXp(xpAfter).level;
+            const levelAfter = levelFromXp(currentXp + delta).level;
             if (levelAfter > levelBefore) {
               toast.success(`Level Up! 🎉`, {
                 description: `You reached level ${levelAfter}!`,
