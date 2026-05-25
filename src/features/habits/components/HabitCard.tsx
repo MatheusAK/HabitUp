@@ -1,8 +1,10 @@
 import { Check, Flame, Pencil, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import {
   computeStreak,
   deleteHabit,
+  levelFromXp,
   TAGS,
   toggleComplete,
   todayISO,
