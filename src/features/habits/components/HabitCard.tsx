@@ -70,17 +70,17 @@ export function HabitCard({
           }
         }}
         disabled={!!expired}
-        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition active:scale-95 ${
+        className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full transition-all duration-150 active:scale-90 ${
           done
-            ? "bg-gradient-success text-success-foreground animate-pop"
-            : "bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
+            ? "bg-gradient-success text-success-foreground shadow-glow animate-pop"
+            : "border-2 border-primary/40 bg-primary/8 text-foreground hover:border-primary hover:bg-primary/15 hover:shadow-glow"
         } ${expired ? "cursor-not-allowed opacity-40" : ""}`}
         aria-label={done ? "Mark incomplete" : "Mark complete"}
       >
         {done ? (
-          <Check className="h-6 w-6" strokeWidth={3} />
+          <Check className="h-7 w-7" strokeWidth={3} />
         ) : (
-          <HabitIcon id={habit.emoji} className="h-6 w-6" />
+          <HabitIcon id={habit.emoji} className="h-7 w-7" />
         )}
       </button>
 
