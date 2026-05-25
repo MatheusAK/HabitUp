@@ -55,8 +55,20 @@ export function HabitCard({
     >
       <button
         onClick={() => {
+          const xpBefore = useStore.getState?. ? useStore.getState() : { xp: 0 };
+          const levelBefore = levelFromXp((xpBefore as any).xp).level;
           const delta = toggleComplete(habit.id);
-          if (delta > 0) onCompleted(delta);
+          if (delta > 0) {
+            onCompleted(delta);
+            const xpAfter = (xpBefore as any).xp + delta;
+            const levelAfter = levelFromXp(xpAfter).level;
+            if (levelAfter > levelBefore) {
+              toast.success(`Level Up! 🎉`, {
+                description: `You reached level ${levelAfter}!`,
+                duration: 4000,
+              });
+            }
+          }
         }}
         disabled={!!expired}
         className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition active:scale-95 ${
