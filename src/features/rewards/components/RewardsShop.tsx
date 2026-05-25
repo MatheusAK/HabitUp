@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Palette, Sparkles, Store } from "lucide-react";
+import { Palette, Store } from "lucide-react";
 import { levelFromXp, THEMES, useStore } from "@/lib/habits-store";
 import { useLocale } from "@/lib/i18n";
 import { ThemeGrid } from "./ThemeGrid";
 import { ThemeShopDialog } from "./ThemeShopDialog";
-import { TagColorsGrid } from "./TagColorsGrid";
 import { CustomTagsSection } from "./CustomTagsSection";
 
 export function RewardsShop() {
@@ -43,16 +42,6 @@ export function RewardsShop() {
           ownedThemes={ownedThemes}
           activeTheme={activeTheme}
         />
-      </section>
-
-      <section>
-        <div className="mb-3 flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-primary" />
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-            {t.tagColors}
-          </h2>
-        </div>
-        <TagColorsGrid level={level} />
       </section>
 
       <CustomTagsSection customTags={customTags} level={level} />
