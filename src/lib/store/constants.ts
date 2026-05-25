@@ -6,11 +6,11 @@ export const THEMES: Theme[] = [
   { id: "midnight", name: "Midnight", unlockLevel: 1 },
   { id: "sunset", name: "Sunset", unlockLevel: 3 },
   { id: "forest", name: "Forest", unlockLevel: 5 },
-  { id: "candy", name: "Candy", unlockLevel: 8 },
-  { id: "aurora", name: "Aurora", unlockLevel: 11 },
-  { id: "nebula", name: "Nebula", unlockLevel: 14 },
-  { id: "solar", name: "Solar", unlockLevel: 17 },
-  { id: "prism", name: "Prism", unlockLevel: 20 },
+  { id: "candy", name: "Candy", unlockLevel: 7 },
+  { id: "aurora", name: "Aurora", unlockLevel: 9 },
+  { id: "nebula", name: "Nebula", unlockLevel: 11 },
+  { id: "solar", name: "Solar", unlockLevel: 13 },
+  { id: "prism", name: "Prism", unlockLevel: 15 },
 ];
 
 export const TAGS: Tag[] = [
