@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
+  base: '/HabitUp/',
   plugins: [
     react(),
     tailwindcss(),
@@ -16,9 +17,4 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
-})
-
-export default defineConfig({
-  base: '/HabitUp/', // ← nome do repositório
-  // resto da config...
 })
