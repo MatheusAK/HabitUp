@@ -25,7 +25,7 @@ export function ThemeCarousel({ themes, ownedThemes, activeTheme, level }: Theme
 
   const scroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
-    const scrollAmount = 140;
+    const scrollAmount = 180;
     scrollRef.current.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
@@ -68,7 +68,7 @@ export function ThemeCarousel({ themes, ownedThemes, activeTheme, level }: Theme
                   setActiveTheme(theme.id);
                 }
               }}
-              className={`group relative h-[68px] w-[130px] shrink-0 overflow-hidden rounded-xl transition-all duration-200 ${
+              className={`group relative h-[76px] w-[160px] shrink-0 overflow-hidden rounded-xl transition-all duration-200 ${
                 active
                   ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
                   : owned
@@ -85,27 +85,27 @@ export function ThemeCarousel({ themes, ownedThemes, activeTheme, level }: Theme
               )}
 
               {/* Content */}
-              <div className="relative flex h-full flex-col justify-between p-2">
+              <div className="relative flex h-full flex-col justify-between p-2.5">
                 <div className="flex items-start justify-between">
-                  <div className="text-xs font-semibold text-white drop-shadow-sm">
+                  <div className="text-sm font-semibold text-white drop-shadow-sm">
                     {theme.name}
                   </div>
                   {active && (
-                    <div className="flex h-4 w-4 items-center justify-center rounded-full bg-primary">
-                      <Check className="h-2.5 w-2.5 text-primary-foreground" />
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary">
+                      <Check className="h-3 w-3 text-primary-foreground" />
                     </div>
                   )}
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <div className="text-[9px] font-medium text-white/90">
+                  <div className="text-[10px] font-medium text-white/90">
                     {owned ? (active ? t.active : t.tapToApply) : canUnlock ? t.tapToUnlock : `Lvl ${theme.unlockLevel}`}
                   </div>
                   {!owned && !canUnlock && (
-                    <Lock className="h-2.5 w-2.5 text-white/70" />
+                    <Lock className="h-3 w-3 text-white/70" />
                   )}
                   {owned && !active && (
-                    <span className="rounded-full bg-white/20 px-1 py-0.5 text-[8px] font-bold text-white">
+                    <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-[9px] font-bold text-white">
                       Owned
                     </span>
                   )}
