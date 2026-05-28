@@ -264,7 +264,7 @@ export function HabitForm({
                     {selectedIconName}
                   </Badge>
                 </div>
-                <div className="grid grid-cols-5 gap-2">
+                <div className="grid grid-cols-6 gap-2">
                   {HABIT_ICONS.map(({ id, Icon }) => {
                     const isSelected = iconId === id;
                     return (
@@ -275,14 +275,14 @@ export function HabitForm({
                         aria-label={id}
                         aria-pressed={isSelected}
                         className={cn(
-                          "flex h-12 w-12 items-center justify-center rounded-xl transition-all",
-                          "min-h-[48px] min-w-[48px]", // 48x48dp touch target
+                          "flex h-11 w-11 items-center justify-center rounded-xl transition-all",
+                          "min-h-[44px] min-w-[44px]", // Touch-friendly
                           isSelected
                             ? "bg-primary/20 text-primary ring-2 ring-primary scale-105"
                             : "bg-muted text-muted-foreground hover:bg-accent hover:text-foreground active:scale-95"
                         )}
                       >
-                        <Icon className="h-6 w-6" />
+                        <Icon className="h-5 w-5" />
                       </button>
                     );
                   })}
