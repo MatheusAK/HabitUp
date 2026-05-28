@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { Flame, Settings as SettingsIcon, Trophy, Zap } from "lucide-react";
 import { DayBar } from "./DayBar";
 import { useLocale } from "@/lib/i18n";
@@ -50,14 +49,11 @@ export function HeroHeader({
             <SettingsIcon className="h-4 w-4" />
           </button>
           <div className="flex flex-col items-end gap-1.5">
-            {/* Prominent level badge — now a link to Progress page */}
-            <Link
-              to="/progress"
-              className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 backdrop-blur-sm transition active:scale-95"
-            >
+            {/* Prominent level badge */}
+            <div className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 backdrop-blur-sm">
               <Trophy className="h-4 w-4 text-yellow-300" />
               <span className="text-sm font-bold">{mounted ? level : "—"}</span>
-            </Link>
+            </div>
             <div className="inline-flex items-center gap-1 rounded-full bg-black/20 px-2.5 py-1 text-xs font-semibold">
               <Flame className="h-3.5 w-3.5" /> {mounted ? `${overallStreak}d` : "—"}
             </div>
