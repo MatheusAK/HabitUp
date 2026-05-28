@@ -25,7 +25,7 @@ export function ThemeCarousel({ themes, ownedThemes, activeTheme, level }: Theme
 
   const scroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
-    const scrollAmount = 180;
+    const scrollAmount = 165;
     scrollRef.current.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
@@ -49,7 +49,7 @@ export function ThemeCarousel({ themes, ownedThemes, activeTheme, level }: Theme
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex gap-2.5 overflow-x-auto scrollbar-hide scroll-smooth -mx-1 px-1"
+        className="flex gap-2.5 overflow-x-auto scrollbar-hide scroll-smooth mx-6 px-1"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {themes.map((theme) => {
@@ -68,7 +68,7 @@ export function ThemeCarousel({ themes, ownedThemes, activeTheme, level }: Theme
                   setActiveTheme(theme.id);
                 }
               }}
-              className={`group relative h-[76px] w-[160px] shrink-0 overflow-hidden rounded-xl transition-all duration-200 ${
+              className={`group relative h-[68px] w-[144px] shrink-0 overflow-hidden rounded-xl transition-all duration-200 ${
                 active
                   ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
                   : owned
@@ -85,7 +85,7 @@ export function ThemeCarousel({ themes, ownedThemes, activeTheme, level }: Theme
               )}
 
               {/* Content */}
-              <div className="relative flex h-full flex-col justify-between p-2.5">
+              <div className="relative flex h-full flex-col justify-between p-2">
                 <div className="flex items-start justify-between">
                   <div className="text-sm font-semibold text-white drop-shadow-sm">
                     {theme.name}
