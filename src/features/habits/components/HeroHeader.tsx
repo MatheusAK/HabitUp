@@ -30,6 +30,8 @@ export function HeroHeader({
   completedToday,
   totalHabits,
   onSettingsClick,
+  selectedDate,
+  onSelectDate,
 }: HeroHeaderProps) {
   const t = useLocale();
   const xpIntoLevel = xp - currentLevelXp;
