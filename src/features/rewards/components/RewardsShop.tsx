@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Palette, Store } from "lucide-react";
 import { levelFromXp, THEMES, useStore } from "@/lib/habits-store";
 import { useLocale } from "@/lib/i18n";
-import { ThemeGrid } from "./ThemeGrid";
+import { ThemeCarousel } from "./ThemeCarousel";
 import { ThemeShopDialog } from "./ThemeShopDialog";
-import { CustomTagsSection } from "./CustomTagsSection";
-import { AchievementsSection } from "./AchievementsSection";
+import { CustomTagsChips } from "./CustomTagsChips";
+import { AchievementsCompact } from "./AchievementsCompact";
 
 export function RewardsShop() {
   const t = useLocale();
@@ -21,34 +21,47 @@ export function RewardsShop() {
     (theme) => ownedThemes.includes(theme.id) || level >= theme.unlockLevel,
   );
 
+  const ownedCount = ownedThemes.length;
+  const totalThemes = THEMES.length;
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
+      {/* Themes Section - Compact carousel */}
       <section>
-        <div className="mb-3 flex items-center justify-between">
+        <div className="mb-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Palette className="h-4 w-4 text-primary" />
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
               {t.themes}
             </h2>
           </div>
-          <button
-            onClick={() => setShopOpen(true)}
-            className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition hover:bg-primary/20"
-          >
-            <Store className="h-3 w-3" /> {t.themeShop}
-          </button>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-medium text-muted-foreground">
+              {ownedCount}/{totalThemes}
+            </span>
+            <button
+              onClick={() => setShopOpen(true)}
+              className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-primary transition hover:bg-primary/15 active:scale-95"
+            >
+              <Store className="h-3 w-3" /> {t.themeShop}
+            </button>
+          </div>
         </div>
-        <ThemeGrid
+        <ThemeCarousel
           themes={visibleThemes}
           ownedThemes={ownedThemes}
           activeTheme={activeTheme}
+          level={level}
         />
       </section>
 
-      <CustomTagsSection customTags={customTags} level={level} />
+      {/* Custom Tags - Modern chips */}
+      <CustomTagsChips customTags={customTags} level={level} />
 
-      <AchievementsSection />
+      {/* Achievements - Compact grid */}
+      <AchievementsCompact />
 
+      {/* Theme Shop Dialog */}
       <ThemeShopDialog
         open={shopOpen}
         onOpenChange={setShopOpen}
