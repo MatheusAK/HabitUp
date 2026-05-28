@@ -87,36 +87,44 @@ export function deleteHabit(id: string) {
   setState((s) => ({ ...s, habits: s.habits.filter((h) => h.id !== id) }));
 }
 
-export function toggleComplete(id: string): number {
-  const today = todayISO();
+/**
+ * Toggle completion for a habit on a given date (defaults to today).
+ * XP is only awarded/refunded when toggling today's date — completing a
+ * past day after the fact (or pre-checking tomorrow) does not grant XP,
+ * to prevent abuse and keep the leveling tied to real-time engagement.
+ */
+export function toggleComplete(id: string, date?: string): number {
+  const target = date ?? todayISO();
+  const isToday = target === todayISO();
   let xpDelta = 0;
   setState((s) => {
     const habits = s.habits.map((h) => {
       if (h.id !== id) return h;
-      const done = h.completions.includes(today);
+      const done = h.completions.includes(target);
       if (done) {
-        // Un-check: remove today's date and refund the XP that was awarded
-        // for it. Past completion dates are never touched.
-        const awarded = h.xpLog?.[today] ?? 0;
+        // Un-check: remove the date and refund any XP that was awarded
+        // for it (only ever non-zero for today's toggle).
+        const awarded = h.xpLog?.[target] ?? 0;
         xpDelta = -awarded;
         const nextLog = { ...(h.xpLog ?? {}) };
-        delete nextLog[today];
+        delete nextLog[target];
         return {
           ...h,
-          completions: h.completions.filter((d) => d !== today),
+          completions: h.completions.filter((d) => d !== target),
           xpLog: nextLog,
         };
       }
-      // Check: append today's date. Use a Set to guarantee no duplicates
-      // even if some stale state ever contained one. We do NOT mutate the
-      // existing array — we build a new one for proper React updates.
+      // Check: append the date. Use a Set to guarantee no duplicates.
       const nextCompletions = Array.from(
-        new Set([...h.completions, today]),
+        new Set([...h.completions, target]),
       ).sort();
       const updated: Habit = { ...h, completions: nextCompletions };
-      const streak = computeStreak(updated);
-      xpDelta = 25 * (Math.floor(streak / 5) + 1);
-      return { ...updated, xpLog: { ...(h.xpLog ?? {}), [today]: xpDelta } };
+      if (isToday) {
+        const streak = computeStreak(updated);
+        xpDelta = 25 * (Math.floor(streak / 5) + 1);
+        return { ...updated, xpLog: { ...(h.xpLog ?? {}), [target]: xpDelta } };
+      }
+      return updated;
     });
     return { ...s, habits, xp: Math.max(0, s.xp + xpDelta) };
   });
