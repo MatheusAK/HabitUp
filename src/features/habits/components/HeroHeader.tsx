@@ -65,7 +65,7 @@ export function HeroHeader({
         </div>
       </div>
 
-      {mounted && <DayBar />}
+      {mounted && <DayBar selectedDate={selectedDate} onSelectDate={onSelectDate} />}
 
       <div className="mt-5">
         {/* XP bar labels: current / needed with clearer formatting */}
