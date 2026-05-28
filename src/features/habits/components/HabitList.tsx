@@ -7,10 +7,11 @@ import { HabitCard } from "./HabitCard";
 interface HabitListProps {
   mounted: boolean;
   visibleHabits: Habit[];
+  selectedDate: string;
   onEdit: (habit: Habit) => void;
 }
 
-export function HabitList({ mounted, visibleHabits, onEdit }: HabitListProps) {
+export function HabitList({ mounted, visibleHabits, selectedDate, onEdit }: HabitListProps) {
   const t = useLocale();
 
   if (!mounted) {
@@ -33,9 +34,12 @@ export function HabitList({ mounted, visibleHabits, onEdit }: HabitListProps) {
         <HabitCard
           key={h.id}
           habit={h}
+          selectedDate={selectedDate}
           onEdit={() => onEdit(h)}
           onCompleted={(delta) => {
-            toast.success(`+${delta} XP`, { description: t.streakToast });
+            if (delta > 0) {
+              toast.success(`+${delta} XP`, { description: t.streakToast });
+            }
           }}
         />
       ))}
