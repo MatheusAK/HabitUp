@@ -28,10 +28,12 @@ function formatFrequency(habit: Habit, daily: string, once: string, noDays: stri
 
 export function HabitCard({
   habit,
+  selectedDate,
   onEdit,
   onCompleted,
 }: {
   habit: Habit;
+  selectedDate: string;
   onEdit: () => void;
   onCompleted: (xp: number) => void;
 }) {
@@ -39,9 +41,10 @@ export function HabitCard({
   const customTags = useStore((s) => s.customTags);
   const currentXp = useStore((s) => s.xp);
   const today = todayISO();
-  const done = habit.completions.includes(today);
+  const isToday = selectedDate === today;
+  const done = habit.completions.includes(selectedDate);
   const streak = computeStreak(habit);
-  const expired = habit.endDate && habit.endDate < today;
+  const expired = habit.endDate && habit.endDate < selectedDate;
 
   const allTagsMap = new Map([
     ...TAGS.map((tag) => [tag.id, tag] as const),
