@@ -29,10 +29,13 @@ export interface T {
   pickDays: string;
   selectOneDay: string;
   endDateLabel: string;
+  endDateHelper: string;
   tagsLabel: string;
+  nextBtn: string;
   cancelBtn: string;
   saveBtn: string;
   createBtn: string;
+  titleRequired: string;
   noStatsTitle: string;
   noStatsBody: string;
   bestStreak: string;
@@ -116,10 +119,13 @@ const en: T = {
   pickDays: "Pick the days this habit should appear:",
   selectOneDay: "Select at least one day.",
   endDateLabel: "End date (optional)",
+  endDateHelper: "Leave empty for an ongoing habit",
   tagsLabel: "Tags",
+  nextBtn: "Next",
   cancelBtn: "Cancel",
   saveBtn: "Save",
   createBtn: "Create",
+  titleRequired: "Title is required",
   noStatsTitle: "No stats yet",
   noStatsBody: "Create habits and start completing them to unlock your charts.",
   bestStreak: "Best streak",
@@ -203,10 +209,13 @@ const ptBR: T = {
   pickDays: "Escolha os dias em que este hábito deve aparecer:",
   selectOneDay: "Selecione pelo menos um dia.",
   endDateLabel: "Data de término (opcional)",
+  endDateHelper: "Deixe vazio para um hábito contínuo",
   tagsLabel: "Tags",
+  nextBtn: "Próximo",
   cancelBtn: "Cancelar",
   saveBtn: "Salvar",
   createBtn: "Criar",
+  titleRequired: "Título é obrigatório",
   noStatsTitle: "Nenhuma estatística ainda",
   noStatsBody: "Crie hábitos e comece a completá-los para desbloquear seus gráficos.",
   bestStreak: "Melhor sequência",
