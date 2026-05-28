@@ -47,6 +47,11 @@ export interface T {
   perHabit: string;
   effortTitle: string;
   allTime: string;
+  consistency: string;
+  weeklyAvg: string;
+  perfectDays: string;
+  lessActive: string;
+  moreActive: string;
   themes: string;
   themeShop: string;
   themeShopDesc: string;
@@ -129,6 +134,11 @@ const en: T = {
   perHabit: "Per habit",
   effortTitle: "Where your effort goes",
   allTime: "All time",
+  consistency: "Consistency",
+  weeklyAvg: "Weekly avg",
+  perfectDays: "Perfect days",
+  lessActive: "Less",
+  moreActive: "More",
   themes: "Themes",
   themeShop: "Theme Shop",
   themeShopDesc: "New themes unlock every 3 levels after Candy. Reach Lvl 20 to collect them all.",
@@ -211,6 +221,11 @@ const ptBR: T = {
   perHabit: "Por hábito",
   effortTitle: "Onde vai seu esforço",
   allTime: "Todo período",
+  consistency: "Consistência",
+  weeklyAvg: "Média semanal",
+  perfectDays: "Dias perfeitos",
+  lessActive: "Menos",
+  moreActive: "Mais",
   themes: "Temas",
   themeShop: "Loja de Temas",
   themeShopDesc: "Novos temas desbloqueiam a cada 3 níveis após Candy. Alcance o Nível 20 para colecionar todos.",

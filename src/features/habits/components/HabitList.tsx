@@ -29,7 +29,7 @@ export function HabitList({ mounted, visibleHabits, selectedDate, onEdit }: Habi
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {visibleHabits.map((h) => (
         <HabitCard
           key={h.id}

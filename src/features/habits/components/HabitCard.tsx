@@ -53,7 +53,7 @@ export function HabitCard({
 
   return (
     <div
-      className={`group relative flex items-center gap-3 rounded-2xl border bg-card p-3 shadow-card transition-all ${
+      className={`group relative flex items-center gap-2.5 rounded-xl border bg-card p-2.5 shadow-card transition-all ${
         done ? "opacity-60" : "border-border/60"
       }`}
     >
@@ -73,37 +73,35 @@ export function HabitCard({
           }
         }}
         disabled={!!expired}
-        className={`relative flex h-13 w-13 shrink-0 items-center justify-center rounded-full transition-all duration-150 active:scale-90 ${
+        className={`relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-all duration-150 active:scale-90 ${
           done
             ? "bg-success text-success-foreground animate-pop"
             : "border-2 border-primary/35 bg-primary/10 text-primary hover:border-primary/60 hover:bg-primary/18"
         } ${expired ? "cursor-not-allowed opacity-35" : ""}`}
-        style={{ height: "3.25rem", width: "3.25rem" }}
         aria-label={done ? "Mark incomplete" : "Mark complete"}
       >
         {done ? (
-          <Check className="h-6 w-6" strokeWidth={2.5} />
+          <Check className="h-5 w-5" strokeWidth={2.5} />
         ) : (
-          <HabitIcon id={habit.emoji} className="h-6 w-6" />
+          <HabitIcon id={habit.emoji} className="h-5 w-5" />
         )}
       </button>
 
       <div className="min-w-0 flex-1">
-        <h3 className={`truncate text-[15px] font-semibold leading-snug ${done ? "line-through opacity-50" : ""}`}>
+        <h3 className={`truncate text-sm font-semibold leading-snug ${done ? "line-through opacity-50" : ""}`}>
           {habit.title}
         </h3>
-        <div className="mt-1 flex flex-wrap items-center gap-1.5">
-          {streak > 0 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-streak/15 px-2 py-0.5 text-[11px] font-semibold text-streak">
-              <Flame className="h-2.5 w-2.5" /> {streak}d
+        <div className="mt-0.5 flex flex-wrap items-center gap-1">{streak > 0 && (
+            <span className="inline-flex items-center gap-0.5 rounded-full bg-streak/15 px-1.5 py-0.5 text-[10px] font-semibold text-streak">
+              <Flame className="h-2.5 w-2.5" /> {streak}
             </span>
           )}
-          <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
+          <span className="rounded-full bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
             {formatFrequency(habit, t.daily, t.once, t.noDays)}
           </span>
           {habit.endDate && (
             <span
-              className={`rounded-full px-2 py-0.5 text-[11px] ${
+              className={`rounded-full px-1.5 py-0.5 text-[10px] ${
                 expired
                   ? "bg-destructive/15 text-destructive"
                   : "bg-muted text-muted-foreground"
@@ -123,7 +121,7 @@ export function HabitCard({
                   color: tag.color,
                   borderColor: tag.color + "44",
                 }}
-                className="px-2 py-0 text-[10px] font-semibold"
+                className="px-1.5 py-0 text-[9px] font-semibold"
               >
                 {tag.label}
               </Badge>
@@ -132,10 +130,10 @@ export function HabitCard({
         </div>
       </div>
 
-      <div className="flex shrink-0 flex-col gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+      <div className="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
         <button
           onClick={onEdit}
-          className="rounded-lg p-1.5 text-muted-foreground transition hover:bg-accent hover:text-foreground"
+          className="rounded-lg p-1 text-muted-foreground transition hover:bg-accent hover:text-foreground"
           aria-label="Edit"
         >
           <Pencil className="h-3.5 w-3.5" />
@@ -144,7 +142,7 @@ export function HabitCard({
           onClick={() => {
             if (confirm(t.deleteConfirm(habit.title))) deleteHabit(habit.id);
           }}
-          className="rounded-lg p-1.5 text-muted-foreground transition hover:bg-destructive/15 hover:text-destructive"
+          className="rounded-lg p-1 text-muted-foreground transition hover:bg-destructive/15 hover:text-destructive"
           aria-label="Delete"
         >
           <Trash2 className="h-3.5 w-3.5" />
