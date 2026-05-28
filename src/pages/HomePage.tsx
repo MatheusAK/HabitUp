@@ -79,7 +79,7 @@ export function HomePage() {
   const totalHabits = scheduledOnDate || habits.length;
 
   return (
-    <div className="relative mx-auto min-h-screen w-full max-w-md pb-32">
+    <div className="relative mx-auto min-h-screen w-full max-w-md pb-24">
       <div className="animated-bg" aria-hidden="true" />
 
       <HeroHeader
@@ -100,7 +100,7 @@ export function HomePage() {
 
       <TabBar tab={tab} onTabChange={setTab} />
 
-      <main className="mt-6 px-5">
+      <main className="mt-4 px-4">
         {tab === "today" ? (
           <HabitList
             mounted={mounted}
@@ -124,10 +124,10 @@ export function HomePage() {
             setEditing(null);
             setFormOpen(true);
           }}
-          className="fixed bottom-6 left-1/2 z-20 inline-flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-glow transition hover:brightness-110 active:scale-95"
+          className="fixed bottom-5 right-5 z-20 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-glow transition hover:brightness-110 active:scale-95"
           aria-label="New habit"
         >
-          <Plus className="h-7 w-7" strokeWidth={2.5} />
+          <Plus className="h-6 w-6" strokeWidth={2.5} />
         </button>
       )}
 
