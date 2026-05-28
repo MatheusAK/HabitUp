@@ -264,7 +264,7 @@ export function HabitForm({
                     {selectedIconName}
                   </Badge>
                 </div>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-5 gap-2">
                   {HABIT_ICONS.map(({ id, Icon }) => {
                     const isSelected = iconId === id;
                     return (
