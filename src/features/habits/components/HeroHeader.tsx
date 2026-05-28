@@ -14,6 +14,8 @@ interface HeroHeaderProps {
   completedToday: number;
   totalHabits: number;
   onSettingsClick: () => void;
+  selectedDate: string;
+  onSelectDate: (iso: string) => void;
 }
 
 export function HeroHeader({
