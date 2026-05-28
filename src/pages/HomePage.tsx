@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import {
   applyActiveThemeOnce,
   computeOverallStreak,
+  isHabitScheduledFor,
   levelFromXp,
   resetXpIfStreakBroken,
   todayISO,
@@ -27,6 +28,9 @@ export function HomePage() {
   const [editing, setEditing] = useState<Habit | null>(null);
   const [mounted, setMounted] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  // The day the user is viewing. Defaults to today, but can be moved
+  // forwards or backwards via the DayBar to review or pre-plan habits.
+  const [selectedDate, setSelectedDate] = useState<string>(() => todayISO());
 
   useEffect(() => {
     applyActiveThemeOnce();
@@ -34,41 +38,45 @@ export function HomePage() {
     setMounted(true);
   }, []);
 
+  const today = todayISO();
+  const selDateObj = mounted ? new Date(selectedDate + "T00:00:00") : new Date();
   const weekday = mounted
-    ? new Date().toLocaleDateString(locale, { weekday: "long" })
+    ? selDateObj.toLocaleDateString(locale, { weekday: "long" })
     : "";
 
   const { level, progress, currentLevelXp, nextLevelXp } = levelFromXp(xp);
   const overallStreak = computeOverallStreak(habits);
-  const today = todayISO();
 
-  const todayDow = new Date().getDay();
-
+  // Filter habits visible on the selected date. Uses the same scheduling
+  // rules as the rest of the app via isHabitScheduledFor, plus a special
+  // case for "once" habits (only show on the date they were completed,
+  // or on today if still pending).
   const visibleHabits = useMemo(
     () =>
       habits.filter((h) => {
         if (h.frequency === "once") {
-          return (
-            !h.completions.includes(today) ||
-            h.completions[h.completions.length - 1] === today
-          );
+          if (selectedDate === today) {
+            // Show today if not completed, or if it was completed today.
+            return (
+              !h.completions.includes(today) ||
+              h.completions[h.completions.length - 1] === today
+            );
+          }
+          // On any other date, only show if it was completed that day.
+          return h.completions.includes(selectedDate);
         }
-        if (h.frequency === "specific") {
-          return (h.scheduledDays ?? []).includes(todayDow);
-        }
-        // "daily" — always show
-        return true;
+        return isHabitScheduledFor(h, selectedDate);
       }),
-    [habits, today, todayDow],
+    [habits, selectedDate, today],
   );
 
-  const completedToday = habits.filter((h) => h.completions.includes(today)).length;
-  const scheduledToday = habits.filter((h) => {
-    if (h.frequency === "daily") return true;
-    if (h.frequency === "specific") return (h.scheduledDays ?? []).includes(todayDow);
-    return false;
-  }).length;
-  const totalHabits = scheduledToday || habits.length;
+  const completedOnDate = habits.filter((h) =>
+    h.completions.includes(selectedDate),
+  ).length;
+  const scheduledOnDate = habits.filter((h) =>
+    isHabitScheduledFor(h, selectedDate),
+  ).length;
+  const totalHabits = scheduledOnDate || habits.length;
 
   return (
     <div className="relative mx-auto min-h-screen w-full max-w-md pb-32">
@@ -83,9 +91,11 @@ export function HomePage() {
         currentLevelXp={currentLevelXp}
         nextLevelXp={nextLevelXp}
         progress={progress}
-        completedToday={completedToday}
+        completedToday={completedOnDate}
         totalHabits={totalHabits}
         onSettingsClick={() => setSettingsOpen(true)}
+        selectedDate={selectedDate}
+        onSelectDate={setSelectedDate}
       />
 
       <TabBar tab={tab} onTabChange={setTab} />
@@ -95,6 +105,7 @@ export function HomePage() {
           <HabitList
             mounted={mounted}
             visibleHabits={visibleHabits}
+            selectedDate={selectedDate}
             onEdit={(h) => {
               setEditing(h);
               setFormOpen(true);
