@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Flame, Settings as SettingsIcon, Trophy, Zap } from "lucide-react";
 import { DayBar } from "./DayBar";
 import { useLocale } from "@/lib/i18n";
