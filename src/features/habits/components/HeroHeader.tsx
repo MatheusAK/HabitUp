@@ -14,6 +14,8 @@ interface HeroHeaderProps {
   completedToday: number;
   totalHabits: number;
   onSettingsClick: () => void;
+  selectedDate: string;
+  onSelectDate: (iso: string) => void;
 }
 
 export function HeroHeader({
@@ -28,6 +30,8 @@ export function HeroHeader({
   completedToday,
   totalHabits,
   onSettingsClick,
+  selectedDate,
+  onSelectDate,
 }: HeroHeaderProps) {
   const t = useLocale();
   const xpIntoLevel = xp - currentLevelXp;
@@ -61,7 +65,7 @@ export function HeroHeader({
         </div>
       </div>
 
-      {mounted && <DayBar />}
+      {mounted && <DayBar selectedDate={selectedDate} onSelectDate={onSelectDate} />}
 
       <div className="mt-5">
         {/* XP bar labels: current / needed with clearer formatting */}
