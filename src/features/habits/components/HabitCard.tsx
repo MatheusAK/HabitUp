@@ -60,9 +60,9 @@ export function HabitCard({
       <button
         onClick={() => {
           const levelBefore = levelFromXp(currentXp).level;
-          const delta = toggleComplete(habit.id);
-          if (delta > 0) {
-            onCompleted(delta);
+          const delta = toggleComplete(habit.id, selectedDate);
+          if (delta !== 0) onCompleted(delta);
+          if (delta > 0 && isToday) {
             const levelAfter = levelFromXp(currentXp + delta).level;
             if (levelAfter > levelBefore) {
               toast.success(`Level Up! 🎉`, {
