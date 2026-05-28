@@ -136,7 +136,7 @@ export function CustomTagsSection({ customTags, level }: CustomTagsSectionProps)
             </Button>
             <Button
               onClick={saveTag}
-              className="bg-gradient-hero text-primary-foreground shadow-glow"
+              className="bg-primary text-primary-foreground"
               disabled={!newTagLabel.trim()}
             >
               {t.createBtn}

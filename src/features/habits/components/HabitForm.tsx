@@ -139,8 +139,8 @@ export function HabitForm({
                   onClick={() => setMainFreq(opt)}
                   className={`rounded-xl px-3 py-2.5 text-sm font-medium transition ${
                     mainFreq === opt
-                      ? "bg-gradient-hero text-primary-foreground shadow-glow"
-                      : "bg-muted text-muted-foreground"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-accent"
                   }`}
                 >
                   {opt === "regular" ? t.regular : t.onetime}
@@ -183,7 +183,7 @@ export function HabitForm({
                         onClick={() => toggleDay(value)}
                         className={`flex-1 rounded-lg py-2 text-xs font-semibold transition ${
                           scheduledDays.includes(value)
-                            ? "bg-gradient-hero text-primary-foreground shadow-glow"
+                            ? "bg-primary text-primary-foreground"
                             : "bg-muted text-muted-foreground hover:bg-accent"
                         }`}
                       >
@@ -248,7 +248,7 @@ export function HabitForm({
           </Button>
           <Button
             onClick={save}
-            className="bg-gradient-hero text-primary-foreground shadow-glow"
+            className="bg-primary text-primary-foreground"
             disabled={
               mainFreq === "regular" &&
               regularType === "specific" &&

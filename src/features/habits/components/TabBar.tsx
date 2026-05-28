@@ -11,38 +11,27 @@ interface TabBarProps {
 export function TabBar({ tab, onTabChange }: TabBarProps) {
   const t = useLocale();
 
-  const labels: Record<Tab, React.ReactNode> = {
-    today: (
-      <span className="inline-flex items-center justify-center gap-1">
-        <ListTodo className="h-3.5 w-3.5" /> {t.tabHabits}
-      </span>
-    ),
-    stats: (
-      <span className="inline-flex items-center justify-center gap-1">
-        <BarChart3 className="h-3.5 w-3.5" /> {t.tabStats}
-      </span>
-    ),
-    rewards: (
-      <span className="inline-flex items-center justify-center gap-1">
-        <Gift className="h-3.5 w-3.5" /> {t.tabRewards}
-      </span>
-    ),
-  };
+  const items: { id: Tab; icon: React.ReactNode; label: string }[] = [
+    { id: "today",   icon: <ListTodo className="h-3.5 w-3.5" />,  label: t.tabHabits  },
+    { id: "stats",   icon: <BarChart3 className="h-3.5 w-3.5" />, label: t.tabStats   },
+    { id: "rewards", icon: <Gift className="h-3.5 w-3.5" />,      label: t.tabRewards },
+  ];
 
   return (
     <div className="sticky top-0 z-10 -mt-4 px-5">
-      <div className="flex rounded-full bg-card p-1 shadow-card">
-        {(["today", "stats", "rewards"] as Tab[]).map((tab_) => (
+      <div className="flex rounded-full border border-border bg-card/90 p-1 backdrop-blur-sm shadow-card">
+        {items.map(({ id, icon, label }) => (
           <button
-            key={tab_}
-            onClick={() => onTabChange(tab_)}
-            className={`flex-1 rounded-full px-3 py-2 text-sm font-semibold transition ${
-              tab === tab_
-                ? "bg-gradient-hero text-primary-foreground shadow-glow"
-                : "text-muted-foreground"
+            key={id}
+            onClick={() => onTabChange(id)}
+            className={`flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold transition-all duration-200 ${
+              tab === id
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            {labels[tab_]}
+            {icon}
+            {label}
           </button>
         ))}
       </div>

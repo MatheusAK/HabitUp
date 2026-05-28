@@ -47,7 +47,7 @@ function ThemeShopCard({
       }}
       disabled={!owned && !canUnlock}
       className={`relative h-24 overflow-hidden rounded-2xl text-left transition ${
-        active ? "ring-2 ring-primary shadow-glow" : ""
+        active ? "ring-2 ring-white/60" : ""
       } ${!owned && !canUnlock ? "opacity-60" : "hover:scale-[1.02]"}`}
     >
       <div

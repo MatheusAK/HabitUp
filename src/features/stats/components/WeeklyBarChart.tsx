@@ -55,7 +55,7 @@ export function WeeklyBarChart({ data, title, subtitle }: WeeklyBarChartProps) {
                 {pct > 0 && (
                   <div
                     className={`absolute inset-y-0 left-0 rounded-full transition-all duration-500 ${
-                      allDone ? "bg-gradient-success" : "bg-gradient-hero"
+                      allDone ? "bg-success" : "bg-primary"
                     }`}
                     style={{ width: `${Math.max(pct * 100, pct > 0 ? 6 : 0)}%` }}
                   />

@@ -124,7 +124,7 @@ export function HomePage() {
             setEditing(null);
             setFormOpen(true);
           }}
-          className="fixed bottom-6 left-1/2 z-20 inline-flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full bg-gradient-hero text-primary-foreground shadow-glow transition active:scale-95"
+          className="fixed bottom-6 left-1/2 z-20 inline-flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-glow transition hover:brightness-110 active:scale-95"
           aria-label="New habit"
         >
           <Plus className="h-7 w-7" strokeWidth={2.5} />

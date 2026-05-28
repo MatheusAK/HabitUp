@@ -27,8 +27,8 @@ export function ThemeGrid({ themes, ownedThemes, activeTheme }: ThemeGridProps) 
                 setActiveTheme(theme.id);
               }
             }}
-            className={`relative h-24 overflow-hidden rounded-2xl text-left transition ${
-              active ? "ring-2 ring-primary shadow-glow" : "hover:scale-[1.02]"
+            className={`relative h-24 overflow-hidden rounded-2xl text-left transition-all duration-200 ${
+              active ? "ring-2 ring-white/60" : "hover:scale-[1.02] hover:brightness-110"
             }`}
           >
             <div

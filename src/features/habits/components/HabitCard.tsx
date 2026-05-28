@@ -53,8 +53,8 @@ export function HabitCard({
 
   return (
     <div
-      className={`group relative flex items-center gap-3 rounded-2xl bg-card p-3 shadow-card transition ${
-        done ? "opacity-80" : ""
+      className={`group relative flex items-center gap-3 rounded-2xl border bg-card p-3 shadow-card transition-all ${
+        done ? "opacity-60" : "border-border/60"
       }`}
     >
       <button
@@ -73,39 +73,40 @@ export function HabitCard({
           }
         }}
         disabled={!!expired}
-        className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full transition-all duration-150 active:scale-90 ${
+        className={`relative flex h-13 w-13 shrink-0 items-center justify-center rounded-full transition-all duration-150 active:scale-90 ${
           done
-            ? "bg-gradient-success text-success-foreground shadow-glow animate-pop"
-            : "border-2 border-primary/40 bg-primary/8 text-foreground hover:border-primary hover:bg-primary/15 hover:shadow-glow"
-        } ${expired ? "cursor-not-allowed opacity-40" : ""}`}
+            ? "bg-success text-success-foreground animate-pop"
+            : "border-2 border-primary/35 bg-primary/10 text-primary hover:border-primary/60 hover:bg-primary/18"
+        } ${expired ? "cursor-not-allowed opacity-35" : ""}`}
+        style={{ height: "3.25rem", width: "3.25rem" }}
         aria-label={done ? "Mark incomplete" : "Mark complete"}
       >
         {done ? (
-          <Check className="h-7 w-7" strokeWidth={3} />
+          <Check className="h-6 w-6" strokeWidth={2.5} />
         ) : (
-          <HabitIcon id={habit.emoji} className="h-7 w-7" />
+          <HabitIcon id={habit.emoji} className="h-6 w-6" />
         )}
       </button>
 
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
-          <h3 className={`truncate font-semibold ${done ? "line-through opacity-70" : ""}`}>
-            {habit.title}
-          </h3>
-        </div>
-        <div className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+        <h3 className={`truncate text-[15px] font-semibold leading-snug ${done ? "line-through opacity-50" : ""}`}>
+          {habit.title}
+        </h3>
+        <div className="mt-1 flex flex-wrap items-center gap-1.5">
           {streak > 0 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-streak/20 px-1.5 py-0.5 text-streak">
-              <Flame className="h-3 w-3" /> {streak}d
+            <span className="inline-flex items-center gap-1 rounded-full bg-streak/15 px-2 py-0.5 text-[11px] font-semibold text-streak">
+              <Flame className="h-2.5 w-2.5" /> {streak}d
             </span>
           )}
-          <span className="rounded-full bg-muted px-1.5 py-0.5">
+          <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
             {formatFrequency(habit, t.daily, t.once, t.noDays)}
           </span>
           {habit.endDate && (
             <span
-              className={`rounded-full px-1.5 py-0.5 ${
-                expired ? "bg-destructive/20 text-destructive" : "bg-muted"
+              className={`rounded-full px-2 py-0.5 text-[11px] ${
+                expired
+                  ? "bg-destructive/15 text-destructive"
+                  : "bg-muted text-muted-foreground"
               }`}
             >
               {expired ? t.ended : t.until(habit.endDate)}
@@ -118,11 +119,11 @@ export function HabitCard({
               <Badge
                 key={tid}
                 style={{
-                  backgroundColor: tag.color + "33",
+                  backgroundColor: tag.color + "22",
                   color: tag.color,
-                  borderColor: "transparent",
+                  borderColor: tag.color + "44",
                 }}
-                className="px-1.5 py-0 text-[10px] font-medium"
+                className="px-2 py-0 text-[10px] font-semibold"
               >
                 {tag.label}
               </Badge>
@@ -131,22 +132,22 @@ export function HabitCard({
         </div>
       </div>
 
-      <div className="flex shrink-0 flex-col gap-1">
+      <div className="flex shrink-0 flex-col gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
         <button
           onClick={onEdit}
-          className="rounded-lg p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground"
+          className="rounded-lg p-1.5 text-muted-foreground transition hover:bg-accent hover:text-foreground"
           aria-label="Edit"
         >
-          <Pencil className="h-4 w-4" />
+          <Pencil className="h-3.5 w-3.5" />
         </button>
         <button
           onClick={() => {
             if (confirm(t.deleteConfirm(habit.title))) deleteHabit(habit.id);
           }}
-          className="rounded-lg p-1.5 text-muted-foreground hover:bg-destructive/20 hover:text-destructive"
+          className="rounded-lg p-1.5 text-muted-foreground transition hover:bg-destructive/15 hover:text-destructive"
           aria-label="Delete"
         >
-          <Trash2 className="h-4 w-4" />
+          <Trash2 className="h-3.5 w-3.5" />
         </button>
       </div>
     </div>
