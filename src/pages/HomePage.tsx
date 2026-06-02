@@ -6,7 +6,6 @@ import {
   computeOverallStreak,
   isHabitScheduledFor,
   levelFromXp,
-  resetXpIfStreakBroken,
   todayISO,
   useStore,
   type Habit,
