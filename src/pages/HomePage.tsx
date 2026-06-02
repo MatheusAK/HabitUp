@@ -33,7 +33,6 @@ export function HomePage() {
 
   useEffect(() => {
     applyActiveThemeOnce();
-    resetXpIfStreakBroken();
     setMounted(true);
   }, []);
 
