@@ -6,7 +6,6 @@ import {
   computeOverallStreak,
   isHabitScheduledFor,
   levelFromXp,
-  resetXpIfStreakBroken,
   todayISO,
   useStore,
   type Habit,
@@ -34,7 +33,6 @@ export function HomePage() {
 
   useEffect(() => {
     applyActiveThemeOnce();
-    resetXpIfStreakBroken();
     setMounted(true);
   }, []);
 
